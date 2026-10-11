@@ -1,0 +1,7 @@
+requests
+pandas
+pyarrow
+streamlit>=1.52
+faster-whisper
+kokoro-onnx
+soundfile

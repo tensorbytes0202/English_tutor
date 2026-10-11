@@ -1,0 +1,4 @@
+*.gguf
+__pycache__/
+data/eval_*.jsonl
+voice_models/

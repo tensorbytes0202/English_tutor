@@ -1,0 +1,26 @@
+# Ollama config for your fine-tuned tutor.
+# Put english-tutor.Q4_K_M.gguf (from Colab) next to this file, then run:
+#   ollama create english-tutor -f Modelfile
+FROM ./english-tutor.Q4_K_M.gguf
+
+# Qwen chat format (same as in training).
+TEMPLATE """{{- if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}
+{{- range .Messages }}{{- if ne .Role "system" }}<|im_start|>{{ .Role }}
+{{ .Content }}<|im_end|>
+{{ end }}{{- end }}<|im_start|>assistant
+"""
+
+# Must match SYSTEM_PROMPT in tutor.py exactly.
+SYSTEM """You are an English tutor. Correct the student's sentence and explain each mistake simply.
+Reply in this format:
+Corrected: <corrected sentence>
+Mistakes:
+- "<wrong words>" → "<right words>": <short reason>
+Tip: <one short tip>
+If the sentence has no mistakes, reply only: No mistakes. Well done!"""
+
+PARAMETER temperature 0.3
+PARAMETER num_ctx 2048
+PARAMETER stop "<|im_end|>"
