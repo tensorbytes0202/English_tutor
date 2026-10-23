@@ -1,5 +1,5 @@
 # One container for a Hugging Face Space (or any server):
-# Ollama serving the tutor model + Whisper + Kokoro + the Streamlit app. Nothing calls an outside API.
+# Ollama serving the tutor model + Whisper + Piper + the smart board. Nothing calls an outside API.
 FROM ollama/ollama:0.35.1
 
 RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-venv \
@@ -25,14 +25,14 @@ RUN ollama serve > /tmp/ollama.log 2>&1 & \
     && ollama create english-tutor -f /tmp/Modelfile \
     && ollama rm "$MODEL_SOURCE"
 
-# Download Whisper + Kokoro into the image so the first request is fast.
+# Download Whisper + the Piper voices into the image so the first request is fast.
 COPY --chown=user voice.py .
 RUN python3 -c "import voice; voice.warmup()"
 
-COPY --chown=user app.py tutor.py ./
+COPY --chown=user server.py tutor.py lessons.json ./
+COPY --chown=user web ./web
 EXPOSE 7860
 ENTRYPOINT []
 CMD ollama serve > /tmp/ollama.log 2>&1 & \
     until ollama list > /dev/null 2>&1; do sleep 1; done; \
-    exec streamlit run app.py --server.port 7860 --server.address 0.0.0.0 --server.headless true \
-        --server.enableXsrfProtection false --browser.gatherUsageStats false
+    exec python3 -m uvicorn server:app --host 0.0.0.0 --port 7860

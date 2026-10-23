@@ -1,5 +1,6 @@
 """English tutor chat UI with voice.   Run:  streamlit run app.py"""
 import re
+import threading
 
 import requests
 import streamlit as st
@@ -19,6 +20,12 @@ def pretty(text):
     return re.sub(r"^(Corrected|Mistakes|Tip):", r"**\1:**", text, flags=re.M).replace("\n", "  \n")
 
 
+@st.cache_resource
+def preload(speaker):
+    """Load Whisper and the chosen voice in the background, so the first reply isn't slowed down by it."""
+    threading.Thread(target=lambda: (voice._whisper(), voice._piper(speaker)), daemon=True).start()
+
+
 try:
     models = installed_models()
 except requests.ConnectionError:
@@ -30,6 +37,7 @@ with st.sidebar:
     model = st.selectbox("Model", preferred + [m for m in models if m not in preferred])
     read_aloud = st.toggle("🔊 Read replies aloud", value=True)
     speaker = voice.VOICES[st.selectbox("Voice", list(voice.VOICES), disabled=not read_aloud)]
+    preload(speaker)
     st.caption("The first reply is slower while the models load.")
     st.subheader("Try")
     clicks = [st.button(s, width="stretch") for s in EXAMPLES]

@@ -1,7 +1,8 @@
 requests
 pandas
 pyarrow
+fastapi
+uvicorn
 streamlit>=1.52
 faster-whisper
-kokoro-onnx
-soundfile
+piper-tts

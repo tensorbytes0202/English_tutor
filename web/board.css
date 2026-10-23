@@ -1,0 +1,249 @@
+/* English smart board. The board is drawn on a fixed 1600x900 canvas and scaled to fit the screen,
+   so it looks the same on a laptop and on a classroom display. Below 900px wide it switches to a stacked layout. */
+:root {
+  --wall-a: #B98355;
+  --wall-b: #A87346;
+  --bezel: #0A0F1D;
+  --board-deep: #0E2256;
+  --board-glow: #1F449B;
+  --card: #F6F8FF;
+  --ink: #18213F;
+  --ink-soft: #4F5A7B;
+  --chalk: #FFD44D;
+  --mint: #1E9E5A;
+  --mint-bg: #E2F6EA;
+  --coral: #D9434A;
+  --coral-bg: #FCE7E8;
+  --line: rgba(255, 255, 255, .6);
+  --display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --text: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --scale: 1;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: var(--text);
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255, 236, 210, .22), rgba(40, 18, 4, .35)),
+    repeating-linear-gradient(90deg, var(--wall-a) 0 172px, var(--wall-b) 172px 176px);
+  overflow: hidden;
+}
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 4px solid var(--chalk); outline-offset: 3px; }
+[hidden] { display: none !important; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Stage and board canvas */
+.stage { height: 100vh; display: grid; place-items: center; }
+.holder { position: relative; width: calc(1600px * var(--scale)); height: calc(900px * var(--scale)); }
+.board {
+  position: absolute; top: 0; left: 0;
+  width: 1600px; height: 900px;
+  transform: scale(var(--scale)); transform-origin: 0 0;
+  border-radius: 8px; overflow: hidden;
+  background: radial-gradient(ellipse 70% 80% at 52% 42%, var(--board-glow), var(--board-deep) 72%);
+  box-shadow: 0 0 0 18px var(--bezel), 0 0 0 20px #262C3D, 0 40px 90px rgba(10, 4, 0, .55);
+}
+.stage:fullscreen { background: var(--bezel); }
+
+/* Top row */
+.board-top { position: absolute; top: 30px; left: 56px; right: 40px; display: flex; align-items: center; justify-content: space-between; }
+.class-name { margin: 0; font-size: 27px; font-weight: 700; color: #E9EEFF; }
+.tools { display: flex; align-items: center; gap: 8px; }
+.tool {
+  width: 46px; height: 46px; display: grid; place-items: center;
+  border-radius: 12px; border: 0; background: rgba(255, 255, 255, .08); color: #C9D5FA;
+}
+.tool:hover { background: rgba(255, 255, 255, .18); color: #fff; }
+.tool svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.tool[aria-pressed="false"] .sound-on, .tool[aria-pressed="true"] .sound-off { display: none; }
+.clock { margin-left: 14px; font-size: 22px; color: #C9D5FA; font-variant-numeric: tabular-nums; }
+
+/* Lesson column */
+.lesson { position: absolute; top: 92px; left: 56px; width: 540px; }
+.lesson h1 { margin: 0 0 18px; font: 800 66px/1.02 var(--display); color: var(--chalk); letter-spacing: -.01em; text-wrap: balance; }
+.lesson p { margin: 0 0 30px; font-size: 25px; line-height: 1.45; color: #E3E9FF; max-width: 30em; }
+.visual { margin: 0; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px 12px; padding: 22px 24px 46px; border: 2px solid var(--line); border-radius: 16px; width: fit-content; max-width: 540px; }
+.visual:empty { display: none; }
+.chip { position: relative; }
+.chip b { display: block; font: 700 27px/1 var(--display); padding: 11px 13px 7px; border: 2px solid rgba(255, 255, 255, .7); border-radius: 12px; color: #fff; }
+/* labels hang under their word without widening it */
+.chip small { position: absolute; top: calc(100% + 7px); left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 18px; color: #B8C6F2; }
+.chip-mark b { border-color: var(--chalk); color: var(--chalk); box-shadow: 0 0 24px rgba(255, 212, 77, .3); }
+.chip-mark small { color: var(--chalk); }
+
+/* Teacher */
+.teacher { position: absolute; left: 600px; top: 96px; width: 420px; height: 546px; }
+.avatar { width: 100%; height: 100%; overflow: visible; }
+.av-all { animation: breathe 5.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+.av-head { transform-box: fill-box; transform-origin: 50% 92%; transition: transform .4s ease; }
+.board[data-teacher="listening"] .av-head { transform: rotate(-4deg); }
+.board[data-teacher="thinking"] .pupil { transform: translate(3px, -4px); }
+.pupil { transition: transform .3s ease; }
+.brow { fill: none; stroke: #3A2216; stroke-width: 6; stroke-linecap: round; }
+.lash { fill: none; stroke: #24130B; stroke-width: 4; stroke-linecap: round; }
+.lid { transform-box: fill-box; transform-origin: 50% 0; transform: scaleY(0); transition: transform 70ms ease; }
+.avatar.blink .lid { transform: scaleY(1); }
+.thinking { position: absolute; top: 40px; right: 38px; display: none; gap: 8px; padding: 14px 18px; background: #fff; border-radius: 22px; }
+.board[data-teacher="thinking"] .thinking { display: flex; }
+.thinking i { width: 12px; height: 12px; border-radius: 50%; background: var(--board-glow); animation: dot 1s ease-in-out infinite; }
+.thinking i:nth-child(2) { animation-delay: .15s; }
+.thinking i:nth-child(3) { animation-delay: .3s; }
+@keyframes breathe { 50% { transform: translateY(4px); } }
+@keyframes dot { 50% { transform: translateY(-6px); opacity: .5; } }
+
+/* Question card */
+.question {
+  position: absolute; top: 100px; right: 48px; width: 520px; max-height: 560px; overflow: auto;
+  padding: 30px 32px 32px; border-radius: 24px; background: var(--card); color: var(--ink);
+  box-shadow: 0 22px 50px rgba(3, 10, 38, .5);
+}
+.question:has(#qText:empty) { display: none; }
+.q-num { margin: 0 0 8px; font-size: 21px; font-weight: 700; color: var(--ink-soft); }
+.question h2 { margin: 0 0 20px; font: 700 33px/1.18 var(--display); text-wrap: balance; }
+.wrong-sentence { margin: 0 0 6px; padding: 14px 18px; font-size: 26px; font-weight: 700; line-height: 1.35; background: #FFF3D1; border-left: 6px solid var(--chalk); border-radius: 10px; }
+.options { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.option {
+  width: 100%; display: flex; gap: 12px; align-items: baseline; padding: 12px 16px; text-align: left;
+  font-size: 24px; line-height: 1.3; color: var(--ink); background: transparent;
+  border: 2px solid #D9E0F3; border-radius: 14px;
+}
+.option:hover:not(:disabled) { border-color: #93A9EC; background: #EDF1FF; }
+.option:disabled { cursor: default; }
+.option .letter { min-width: 1.7em; font-weight: 700; color: var(--ink-soft); }
+.option.chosen { border-color: #2D4FB8; background: #E8EEFF; }
+.option.right { border-color: var(--mint); background: var(--mint-bg); }
+.option.wrong { border-color: var(--coral); background: var(--coral-bg); }
+.option.right .letter { color: var(--mint); }
+.option.wrong .letter { color: var(--coral); }
+.option .mark { margin-left: auto; font-weight: 700; }
+.option.right .mark { color: var(--mint); }
+.option.wrong .mark { color: var(--coral); }
+
+/* Result of checking the student's own sentence */
+.check { margin-top: 4px; font-size: 21px; line-height: 1.4; }
+.check .fixed { margin: 0 0 12px; font-size: 25px; font-weight: 700; color: #126B3D; white-space: pre-line; }
+.check .perfect { margin: 0; font: 700 30px/1.2 var(--display); color: var(--mint); }
+.check ul { margin: 0 0 14px; padding-left: 1.1em; }
+.check li { margin-bottom: 6px; }
+.check del { color: var(--coral); }
+.check ins { color: #126B3D; text-decoration: none; font-weight: 700; }
+.check .tip { margin: 0; padding: 12px 16px; background: #FFF3D1; border-radius: 12px; }
+
+/* Latency read-out, only with ?debug in the address */
+.latency { position: absolute; left: 56px; bottom: 26px; margin: 0; font-size: 17px; color: #A9BBEE; font-variant-numeric: tabular-nums; }
+
+/* Speech bubbles */
+.bubble { position: absolute; max-width: 500px; padding: 18px 24px; font-size: 24px; line-height: 1.4; border-radius: 24px; }
+.bubble-student { left: 56px; bottom: 150px; color: var(--ink); background: #fff; box-shadow: 0 14px 34px rgba(3, 10, 38, .45); }
+.bubble-student::after { content: ""; position: absolute; left: 46px; bottom: -16px; border: 9px solid transparent; border-top: 14px solid #fff; border-left: 14px solid #fff; }
+.bubble-teacher { position: relative; width: 470px; margin-left: 40px; color: #fff; background: rgba(12, 30, 84, .94); border: 2px solid rgba(255, 255, 255, .35); box-shadow: 0 14px 34px rgba(3, 10, 38, .45); }
+.bubble-teacher.good { border-color: #59D68F; }
+.bubble-teacher.miss { border-color: #FF8A8F; }
+
+/* Bottom right: the teacher's bubble sits on top of the instruction row, whatever height that row has */
+.dock { position: absolute; left: 600px; right: 48px; bottom: 36px; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.board-bottom { width: 100%; display: flex; align-items: center; gap: 18px; }
+.prompt { flex: 1; margin: 0; padding: 18px 24px; border-radius: 18px; background: rgba(8, 20, 62, .78); border: 1.5px solid rgba(255, 255, 255, .32); }
+.prompt p { margin: 0; font-size: 23px; line-height: 1.35; }
+.prompt input { width: 100%; margin-top: 10px; padding: 10px 14px; font-size: 22px; color: var(--ink); border: 0; border-radius: 10px; }
+.type-toggle { flex: none; padding: 8px 4px; font-size: 18px; color: #C9D5FA; background: none; border: 0; text-decoration: underline; text-underline-offset: 4px; }
+.timer { position: relative; flex: none; width: 76px; height: 76px; }
+.timer svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.timer-track { fill: rgba(8, 20, 62, .7); stroke: rgba(255, 255, 255, .18); stroke-width: 6; }
+.timer-ring { fill: none; stroke: var(--chalk); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 213.6; transition: stroke-dashoffset .25s linear; }
+.timer.low .timer-ring { stroke: #FF8A8F; }
+.timer span { position: absolute; inset: 0; display: grid; place-items: center; font: 700 22px var(--display); }
+.mic {
+  position: relative; flex: none; width: 84px; height: 84px; display: grid; place-items: center;
+  border: 0; border-radius: 50%; background: #fff; color: var(--board-deep);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .35);
+}
+.mic svg { width: 36px; height: 36px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.mic rect { fill: currentColor; }
+.mic::before { content: ""; position: absolute; inset: -9px; border-radius: 50%; border: 4px solid transparent; transform: scale(calc(1 + var(--level, 0) * .5)); transition: transform 90ms linear; }
+.mic[data-state="recording"] { background: var(--coral); color: #fff; }
+.mic[data-state="recording"]::before { border-color: rgba(255, 138, 143, .75); }
+.mic[data-state="working"] { background: #DDE4F7; }
+.mic[data-state="working"]::before { border-color: var(--chalk) transparent transparent; animation: spin .9s linear infinite; }
+.mic:disabled { opacity: .45; cursor: default; }
+@keyframes spin { to { transform: rotate(1turn); } }
+.next { flex: none; padding: 16px 30px; font: 700 25px/1 var(--display); color: var(--board-deep); background: var(--chalk); border: 0; border-radius: 999px; box-shadow: 0 10px 26px rgba(0, 0, 0, .35); }
+.next:hover { background: #FFE07F; }
+
+/* Class chat */
+.chat { position: absolute; top: 0; right: 0; bottom: 0; width: 500px; display: flex; flex-direction: column; background: #0A1A47; border-left: 2px solid rgba(255, 255, 255, .15); box-shadow: -20px 0 50px rgba(0, 0, 0, .35); z-index: 5; }
+.chat header { display: flex; align-items: center; justify-content: space-between; padding: 24px 24px 12px; }
+.chat h2 { margin: 0; font: 700 30px var(--display); }
+.chat ol { flex: 1; margin: 0; padding: 8px 24px 24px; list-style: none; overflow: auto; display: grid; align-content: start; gap: 14px; }
+.chat li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start; }
+.chat li svg { width: 40px; height: 40px; }
+.chat li p { margin: 0; padding: 12px 16px; font-size: 19px; line-height: 1.4; border-radius: 16px; background: #fff; color: var(--ink); }
+.chat .from-student p { background: #DCE6FF; }
+.chat .who { display: block; margin-bottom: 2px; font-size: 15px; font-weight: 700; color: var(--ink-soft); }
+
+/* Lesson picker */
+.start { position: absolute; inset: 0; z-index: 6; padding: 110px 120px 60px; background: radial-gradient(ellipse 70% 80% at 52% 42%, var(--board-glow), var(--board-deep) 72%); }
+.start h2 { margin: 0 0 10px; font: 800 70px/1 var(--display); color: var(--chalk); }
+.start-note { margin: 0 0 40px; font-size: 25px; color: #D6E0FF; max-width: 46em; }
+.lesson-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-bottom: 40px; }
+.lesson-pick { display: flex; flex-direction: column; gap: 10px; min-height: 250px; padding: 26px; text-align: left; color: var(--ink); background: var(--card); border: 3px solid transparent; border-radius: 22px; }
+.lesson-pick:hover { border-color: var(--chalk); }
+.lesson-pick strong { font: 700 32px/1.1 var(--display); }
+.lesson-pick span { font-size: 20px; line-height: 1.4; color: var(--ink-soft); }
+.lesson-pick em { margin-top: auto; font-style: normal; font-weight: 700; color: #2D4FB8; }
+.lesson-pick.practice { background: transparent; color: #fff; border: 3px dashed rgba(255, 255, 255, .5); }
+.lesson-pick.practice span { color: #D6E0FF; }
+.lesson-pick.practice em { color: var(--chalk); }
+.voice-pick { display: inline-flex; align-items: center; gap: 14px; font-size: 22px; color: #D6E0FF; }
+.voice-pick select { padding: 8px 14px; font-size: 21px; border-radius: 10px; border: 0; }
+.start-error { padding: 16px 20px; margin: -16px 0 32px; font-size: 22px; color: var(--ink); background: #FFE2E3; border-radius: 14px; max-width: 46em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .av-all, .thinking i, .mic[data-state="working"]::before { animation: none; }
+  .av-head, .pupil, .lid, .timer-ring { transition: none; }
+}
+
+/* Phones and narrow windows: stacked board, no scaling */
+@media (max-width: 899px) {
+  html, body { background: var(--board-deep); }
+  body { overflow: auto; }
+  .stage { height: auto; display: block; }
+  .holder { width: auto; height: auto; }
+  .board { position: relative; width: 100%; height: auto; min-height: 100vh; transform: none; border-radius: 0; box-shadow: none; padding: 16px 16px 150px; display: flex; flex-direction: column; gap: 18px; }
+  .board-top, .lesson, .teacher, .question, .bubble, .dock, .chat, .start, .latency { position: static; width: auto; max-width: none; max-height: none; }
+  .bubble-teacher { margin-left: 0; }
+  .board-top { flex-wrap: wrap; gap: 8px; }
+  .class-name { font-size: 18px; }
+  .tool { width: 40px; height: 40px; }
+  .clock { display: none; }
+  .lesson h1 { font-size: 38px; }
+  .lesson p { font-size: 18px; margin-bottom: 16px; }
+  .visual { padding: 14px 14px 34px; gap: 30px 8px; }
+  .chip b { font-size: 21px; }
+  .chip small { font-size: 13px; }
+  .teacher { align-self: center; width: 170px; height: 220px; position: relative; inset: auto; }
+  .thinking { top: 0; right: -40px; }
+  .question { padding: 20px; }
+  .question h2 { font-size: 24px; }
+  .option, .wrong-sentence, .check { font-size: 18px; }
+  .bubble { font-size: 18px; }
+  .bubble-student::after { display: none; }
+  .board-bottom { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px; flex-wrap: wrap; gap: 10px; background: var(--board-deep); border-top: 1px solid rgba(255, 255, 255, .2); z-index: 4; }
+  .prompt { flex-basis: 100%; padding: 10px 14px; }
+  .prompt p { font-size: 16px; }
+  .timer { width: 56px; height: 56px; }
+  .mic { width: 64px; height: 64px; margin-left: auto; }
+  .next { padding: 12px 20px; font-size: 19px; }
+  .chat { position: fixed; inset: 0; }
+  .start { position: fixed; inset: 0; overflow: auto; padding: 28px 16px; }
+  .start h2 { font-size: 40px; }
+  .start-note { font-size: 18px; margin-bottom: 20px; }
+  .lesson-list { grid-template-columns: 1fr; gap: 12px; }
+  .lesson-pick { min-height: 0; padding: 18px; }
+  .lesson-pick strong { font-size: 24px; }
+  .lesson-pick span { font-size: 16px; }
+}

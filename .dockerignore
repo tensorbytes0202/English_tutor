@@ -2,5 +2,8 @@
 !requirements.txt
 !Modelfile
 !voice.py
-!app.py
 !tutor.py
+!server.py
+!lessons.json
+!web
+!web/**

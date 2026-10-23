@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>English Smart Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="board.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E2256'/%3E%3Ctext x='16' y='23' font-size='19' font-family='Arial' font-weight='700' text-anchor='middle' fill='%23FFD44D'%3EAa%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<main class="stage" id="stage">
+  <div class="holder" id="holder">
+    <section class="board" id="board" data-teacher="idle" aria-label="Smart board">
+
+      <header class="board-top">
+        <p class="class-name" id="className">Class 8 - English</p>
+        <div class="tools">
+          <button class="tool" id="btnLessons" title="Lessons" aria-label="Choose a lesson">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10"/></svg>
+          </button>
+          <button class="tool" id="btnRepeat" title="Repeat what the teacher said" aria-label="Repeat what the teacher said">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5"/></svg>
+          </button>
+          <button class="tool" id="btnChat" title="Class chat" aria-label="Show class chat" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>
+          </button>
+          <button class="tool" id="btnSound" title="Teacher's voice on" aria-label="Turn the teacher's voice off" aria-pressed="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path class="sound-on" d="M4 9v6h4l5 4V5L8 9zM16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="sound-off" d="M4 9v6h4l5 4V5L8 9zM16 9l6 6M22 9l-6 6"/></svg>
+          </button>
+          <button class="tool" id="btnFull" title="Full screen" aria-label="Full screen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+          </button>
+          <time id="clock" class="clock"></time>
+        </div>
+      </header>
+
+      <article class="lesson">
+        <h1 id="lessonTitle"></h1>
+        <p id="lessonExplain"></p>
+        <figure class="visual" id="visual" aria-label="Example sentence"></figure>
+      </article>
+
+      <div class="teacher">
+        <div class="thinking" aria-hidden="true"><i></i><i></i><i></i></div>
+        <svg class="avatar" id="avatar" viewBox="0 0 400 520" role="img" aria-label="Teacher">
+          <defs>
+            <linearGradient id="gBlazer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7189EA"/><stop offset="1" stop-color="#4A61C6"/></linearGradient>
+            <linearGradient id="gHair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4B2D1E"/><stop offset="1" stop-color="#2C1810"/></linearGradient>
+            <radialGradient id="gSkin" cx=".45" cy=".38" r=".75"><stop offset="0" stop-color="#F3C49E"/><stop offset="1" stop-color="#DFA27A"/></radialGradient>
+            <clipPath id="cEyeL"><ellipse cx="166" cy="202" rx="15" ry="16"/></clipPath>
+            <clipPath id="cEyeR"><ellipse cx="234" cy="202" rx="15" ry="16"/></clipPath>
+          </defs>
+          <g class="av-all">
+            <path fill="url(#gHair)" d="M200 70C120 70 96 140 100 220C104 300 92 360 104 430L296 430C308 360 296 300 300 220C304 140 280 70 200 70Z"/>
+            <path fill="#D6956C" d="M178 280L222 280L226 345L174 345Z"/>
+            <path fill="#FFFFFF" d="M158 340L200 440L242 340L226 330L174 330Z"/>
+            <path fill="none" stroke="#E9C46A" stroke-width="2.5" d="M178 334Q200 372 222 334"/>
+            <circle cx="200" cy="366" r="6" fill="#FFD44D"/>
+            <path fill="url(#gBlazer)" d="M30 520C40 420 90 360 158 340L200 440L242 340C310 360 360 420 370 520Z"/>
+            <path fill="#3D52B5" d="M158 340L200 440L186 446L144 352Z"/>
+            <path fill="#3D52B5" d="M242 340L200 440L214 446L256 352Z"/>
+            <path fill="url(#gHair)" d="M104 290C94 360 112 420 146 452C132 400 130 340 136 286Z"/>
+            <path fill="url(#gHair)" d="M296 290C306 360 288 420 254 452C268 400 270 340 264 286Z"/>
+            <g class="av-head" id="avHead">
+              <ellipse cx="123" cy="208" rx="12" ry="18" fill="#DFA27A"/>
+              <ellipse cx="277" cy="208" rx="12" ry="18" fill="#DFA27A"/>
+              <circle cx="122" cy="232" r="4.5" fill="#FFD44D"/>
+              <circle cx="278" cy="232" r="4.5" fill="#FFD44D"/>
+              <path fill="url(#gSkin)" d="M200 104C252 104 280 145 280 200C280 258 246 296 200 296C154 296 120 258 120 200C120 145 148 104 200 104Z"/>
+              <path fill="url(#gHair)" d="M117 206C106 128 150 82 206 80C264 80 298 126 285 206C276 160 254 134 226 126C206 156 166 172 123 182Z"/>
+              <path class="brow" d="M146 174Q164 161 184 169"/>
+              <path class="brow" d="M216 169Q236 161 254 174"/>
+              <ellipse cx="166" cy="202" rx="15" ry="16" fill="#FFFFFF"/>
+              <ellipse cx="234" cy="202" rx="15" ry="16" fill="#FFFFFF"/>
+              <g clip-path="url(#cEyeL)">
+                <g class="pupil"><circle cx="167" cy="205" r="10" fill="#5A3420"/><circle cx="167" cy="205" r="5" fill="#1C0F08"/><circle cx="171" cy="200" r="3.2" fill="#FFFFFF"/></g>
+                <rect class="lid" x="148" y="184" width="36" height="36" fill="#E6AD86"/>
+              </g>
+              <g clip-path="url(#cEyeR)">
+                <g class="pupil"><circle cx="235" cy="205" r="10" fill="#5A3420"/><circle cx="235" cy="205" r="5" fill="#1C0F08"/><circle cx="239" cy="200" r="3.2" fill="#FFFFFF"/></g>
+                <rect class="lid" x="216" y="184" width="36" height="36" fill="#E6AD86"/>
+              </g>
+              <path class="lash" d="M150 197Q166 182 182 195"/>
+              <path class="lash" d="M218 195Q234 182 250 197"/>
+              <path fill="none" stroke="#C47F5B" stroke-width="3.5" stroke-linecap="round" d="M199 216Q194 234 204 237"/>
+              <circle cx="148" cy="244" r="14" fill="#F08A8A" opacity=".3"/>
+              <circle cx="252" cy="244" r="14" fill="#F08A8A" opacity=".3"/>
+              <path id="mouth" fill="#A23B4A" d="M180 256Q200 259 220 256Q200 266 180 256Z"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="question" id="questionCard" aria-live="polite">
+        <p class="q-num" id="qNum"></p>
+        <h2 id="qText"></h2>
+        <p class="wrong-sentence" id="qWrong" hidden></p>
+        <ol class="options" id="options"></ol>
+        <div class="check" id="check" hidden></div>
+      </aside>
+
+      <div class="bubble bubble-student" id="studentBubble" hidden></div>
+      <p class="latency" id="latency" hidden></p>
+
+      <div class="dock">
+      <div class="bubble bubble-teacher" id="teacherBubble" aria-live="polite" hidden></div>
+      <footer class="board-bottom">
+        <form class="prompt" id="promptForm">
+          <p id="prompt"></p>
+          <label class="visually-hidden" for="typed">Type your answer</label>
+          <input id="typed" autocomplete="off" placeholder="Type your answer and press Enter" hidden>
+        </form>
+        <button class="type-toggle" id="btnType" type="button">Type instead</button>
+        <div class="timer" id="timer" hidden>
+          <svg viewBox="0 0 80 80" aria-hidden="true"><circle class="timer-track" cx="40" cy="40" r="34"/><circle class="timer-ring" id="timerRing" cx="40" cy="40" r="34"/></svg>
+          <span id="timerText" aria-label="Time left">0:30</span>
+        </div>
+        <button class="mic" id="mic" data-state="idle" aria-label="Answer with the microphone">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>
+        </button>
+        <button class="next" id="next" hidden>Next question</button>
+      </footer>
+      </div>
+
+      <aside class="chat" id="chat" aria-label="Class chat" hidden>
+        <header><h2>Class chat</h2><button class="tool" id="btnChatClose" aria-label="Close class chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+        <ol id="chatList"></ol>
+      </aside>
+
+      <div class="start" id="start">
+        <h2>Choose today's lesson</h2>
+        <p class="start-note" id="startNote">The teacher reads each question aloud. Students answer through the microphone or by tapping an option.</p>
+        <div class="lesson-list" id="lessonList"></div>
+        <label class="voice-pick">Teacher's voice
+          <select id="voicePick"><option>US female</option></select>
+        </label>
+      </div>
+    </section>
+  </div>
+</main>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="miniTeacher" viewBox="0 0 40 40">
+    <circle cx="20" cy="20" r="20" fill="#2D4FB8"/>
+    <path fill="#3A2216" d="M8 30C6 14 12 7 20 7S34 14 32 30Z"/>
+    <circle cx="20" cy="20" r="9.5" fill="#EDB78F"/>
+    <path fill="#3A2216" d="M10.5 19C11 12 15 9.5 21 9.5C26 9.5 29.5 13 29.5 19C27 15 24 13.5 21 13.2C18.5 16 14.5 17.5 10.5 19Z"/>
+    <path fill="#4A61C6" d="M6 40C8 32 13 29.5 20 29.5S32 32 34 40Z"/>
+  </symbol>
+  <symbol id="miniStudent" viewBox="0 0 40 40">
+    <circle cx="20" cy="20" r="20" fill="#E8EEFF"/>
+    <circle cx="20" cy="17" r="8" fill="#8A5A3C"/>
+    <path fill="#1E2A4F" d="M12 15C12 9 16 7 20 7S28 9 28 15C26 12 23 11 20 11S14 12 12 15Z"/>
+    <path fill="#7FA2E8" d="M6 40C8 31 13 28 20 28S32 31 34 40Z"/>
+  </symbol>
+</svg>
+<script src="board.js"></script>
+</body>
+</html>

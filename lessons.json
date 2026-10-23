@@ -1,0 +1,141 @@
+{
+  "teacher": "Ms. Asha",
+  "class": "Class 8 - English",
+  "lessons": [
+    {
+      "id": "present-simple",
+      "title": "Present simple: he, she, it",
+      "explain": "When the subject is he, she or it, the verb in the present simple takes -s or -es. One person or thing works the same way.",
+      "visual": [
+        {"text": "She", "label": "subject"},
+        {"text": "plays", "label": "verb + s", "mark": true},
+        {"text": "cricket every day.", "label": ""}
+      ],
+      "intro": "Good morning, everyone! Today we are learning the present simple with he, she and it. Look at the board: she plays cricket every day. Because the subject is she, the verb gets an s.",
+      "steps": [
+        {
+          "type": "choice",
+          "question": "Which sentence is correct?",
+          "options": ["She play cricket every day.", "She plays cricket every day.", "She playing cricket every day.", "She is play cricket every day."],
+          "answer": 1,
+          "why": "With she, the present simple verb takes -s, so play becomes plays."
+        },
+        {
+          "type": "fix",
+          "question": "Say this sentence correctly.",
+          "wrong": "My brother go to school by bus.",
+          "answers": ["My brother goes to school by bus."],
+          "why": "My brother is he, so go becomes goes."
+        },
+        {
+          "type": "choice",
+          "question": "Fill the gap: The sun ___ in the east.",
+          "options": ["rise", "rises", "rising", "is rise"],
+          "answer": 1,
+          "why": "The sun is it, so rise becomes rises."
+        },
+        {
+          "type": "choice",
+          "question": "Which verb needs -es instead of -s?",
+          "options": ["play", "read", "watch", "sing"],
+          "answer": 2,
+          "why": "Verbs ending in ch, sh, s, x or o take -es: watch becomes watches."
+        },
+        {
+          "type": "speak",
+          "question": "Tell me one thing your best friend does every morning."
+        }
+      ],
+      "outro": "Well done, class! Remember: with he, she and it, the verb takes an s."
+    },
+    {
+      "id": "past-simple",
+      "title": "Past simple: finished actions",
+      "explain": "Use the past simple for actions that are finished, like yesterday or last week. Many verbs add -ed. Some change completely: go becomes went.",
+      "visual": [
+        {"text": "Yesterday", "label": "finished time"},
+        {"text": "I", "label": "subject"},
+        {"text": "went", "label": "go → went", "mark": true},
+        {"text": "to the market.", "label": ""}
+      ],
+      "intro": "Hello, class! Today's topic is the past simple. When we talk about yesterday or last week, the verb changes. Play becomes played, and go becomes went.",
+      "steps": [
+        {
+          "type": "choice",
+          "question": "Which sentence is correct?",
+          "options": ["Yesterday I go to the park.", "Yesterday I went to the park.", "Yesterday I going to the park.", "Yesterday I goes to the park."],
+          "answer": 1,
+          "why": "Yesterday is finished time, so go becomes went."
+        },
+        {
+          "type": "fix",
+          "question": "Say this sentence correctly.",
+          "wrong": "Last week we visit our grandmother.",
+          "answers": ["Last week we visited our grandmother.", "We visited our grandmother last week."],
+          "why": "Last week is in the past, so visit becomes visited."
+        },
+        {
+          "type": "choice",
+          "question": "What is the past simple of see?",
+          "options": ["seed", "saw", "seen", "sees"],
+          "answer": 1,
+          "why": "See is irregular: in the past simple it becomes saw."
+        },
+        {
+          "type": "choice",
+          "question": "Fill the gap: She ___ her homework last night.",
+          "options": ["finish", "finishes", "finished", "finishing"],
+          "answer": 2,
+          "why": "Last night is finished time, so finish takes -ed."
+        },
+        {
+          "type": "speak",
+          "question": "Tell me about something you did last Sunday."
+        }
+      ],
+      "outro": "Great work today! For finished time, use the past form of the verb."
+    },
+    {
+      "id": "articles",
+      "title": "A or an?",
+      "explain": "Use an before a vowel sound: an apple, an hour. Use a before a consonant sound: a book, a university. Listen to the sound, not the letter.",
+      "visual": [
+        {"text": "I ate", "label": ""},
+        {"text": "an", "label": "vowel sound", "mark": true},
+        {"text": "apple", "label": ""},
+        {"text": "and", "label": ""},
+        {"text": "a", "label": "consonant sound", "mark": true},
+        {"text": "banana.", "label": ""}
+      ],
+      "intro": "Good morning! Today we will learn when to say a and when to say an. Listen to the first sound of the next word. Apple starts with a vowel sound, so we say an apple.",
+      "steps": [
+        {
+          "type": "choice",
+          "question": "Which one is correct?",
+          "options": ["a engineer", "an engineer", "a apple", "an book"],
+          "answer": 1,
+          "why": "Engineer starts with a vowel sound, so we say an engineer."
+        },
+        {
+          "type": "choice",
+          "question": "Which phrase is correct?",
+          "options": ["a hour", "an hour", "a honest boy", "an university"],
+          "answer": 1,
+          "why": "The h in hour is silent, so hour starts with a vowel sound: an hour."
+        },
+        {
+          "type": "fix",
+          "question": "Say this sentence correctly.",
+          "wrong": "I saw a elephant at the zoo.",
+          "answers": ["I saw an elephant at the zoo."],
+          "why": "Elephant starts with a vowel sound, so a becomes an."
+        },
+        {
+          "type": "speak",
+          "question": "Tell me about an animal you like. Use a or an in your sentence."
+        }
+      ],
+      "outro": "Wonderful! Listen to the first sound: a before consonant sounds, an before vowel sounds."
+    }
+  ]
+}
