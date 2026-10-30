@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Classroom: hands up</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/cr.css"></head><body>
+<script src="../assets/cr.js"></script>
+<script>
+const state = { Diya: 'speak', Kabir: 'hand:1', Meera: 'hand:2', Rohan: 'hand:3', Aarav: 'off', Neel: 'away', Yash: 'away' };
+const tile = (n) => {
+  const [s, order] = (state[n] || '').split(':');
+  const cls = s === 'speak' ? 'speak' : s === 'hand' ? 'hand' : s === 'away' ? 'off' : '';
+  const sub = s === 'speak' ? '<small>Speaking</small>' : s === 'off' ? '<small>Mic off</small>' : s === 'away' ? '<small>Not here</small>' : '';
+  return `<div class="st20 ${cls}">${s === 'hand' ? `<span class="badge">${order}</span>` : ''}${av(n, 56)}${n}${s === 'speak' ? ribbon(9, 2) : s ? sub : ribbon(9, n.length + 3, 'calm')}</div>`;
+};
+CR.mount({
+  title: 'Present simple: he, she, it', step: { n: 3, total: 5 },
+  teacher: { state: 'idle', say: 'Raise your hand to answer. I will call each of you in order.' },
+  rail: { now: { name: 'Diya', state: 'Speaking', tone: 'chalk' }, queue: ['Kabir', 'Meera', 'Rohan'], here: 18 },
+  dock: { icon: 'hand', status: 'Kabir is next. Get ready!', wave: 'calm', hand: true, mic: '' },
+  board: `<div style="display:flex;align-items:center;gap:16px"><span class="eyebrow">${ic('hand', 22)}Who speaks next?</span><div class="seg"><span>One student</span><span class="on">Raised hands</span><span>Take turns</span></div></div>
+    <div class="grid20 push">${NAMES.map(tile).join('')}</div>`,
+});
+</script></body></html>

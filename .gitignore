@@ -3,3 +3,6 @@ __pycache__/
 data/eval_*.jsonl
 voice_models/
 .playwright-mcp/
+data/*.db
+.env
+data/v2/

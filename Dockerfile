@@ -29,7 +29,8 @@ RUN ollama serve > /tmp/ollama.log 2>&1 & \
 COPY --chown=user voice.py .
 RUN python3 -c "import voice; voice.warmup()"
 
-COPY --chown=user server.py tutor.py lessons.json ./
+COPY --chown=user server.py tutor.py lessons.py lessons.json ./
+COPY --chown=user admin ./admin
 COPY --chown=user web ./web
 EXPOSE 7860
 ENTRYPOINT []

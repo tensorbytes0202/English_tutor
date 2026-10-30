@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Classroom: components</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/cr.css">
+<style>
+  body { height: auto; overflow: visible; } .sheetp { width: 1600px; min-height: 900px; padding: 34px 44px; background: radial-gradient(1100px 640px at 46% 40%, var(--glow), var(--deep) 72%); display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 22px; align-content: start; }
+  .col { display: grid; gap: 18px; align-content: start; } .panel { border-radius: 26px; padding: 20px 22px; display: grid; gap: 14px; }
+  .panel.d { background: var(--glass); box-shadow: inset 0 0 0 1px var(--glass-line); } .panel.p { background: var(--paper); color: var(--ink); }
+  .cap { font: 700 19px var(--display); opacity: .75; } .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  h1.t { font: 800 44px var(--display); grid-column: 1 / -1; } h1.t small { font: 400 21px var(--text); color: var(--on-dark-soft); margin-left: 14px; }
+  .swatch { width: 74px; height: 74px; border-radius: 20px; display: grid; place-items: end start; padding: 8px; font: 700 13px var(--text); }
+  .opt { padding: 12px 16px; font-size: 24px; } .opt .k { width: 44px; height: 44px; font-size: 22px; } .opt .st { width: 32px; height: 32px; }
+</style></head><body><div class="sheetp" id="root"></div>
+<script src="../assets/cr.js"></script>
+<script>
+const sw = (c, n, ink = '#fff') => `<div class="swatch" style="background:${c};color:${ink}">${n}</div>`;
+document.getElementById('root').innerHTML = `
+<h1 class="t">Classroom components<small>Baloo 2 for headings, Atkinson Hyperlegible for reading. Every screen uses only these.</small></h1>
+<div class="col">
+  <div class="panel d"><span class="cap">Colour</span><div class="row">${sw('#0E2256', 'Board', '#fff')}${sw('#FFD44D', 'Chalk', '#3B2D00')}${sw('#F6F8FF', 'Paper', '#18213F')}${sw('#1E9E5A', 'Right')}${sw('#D9434A', 'Fix')}${sw('#5CA9FF', 'Hand', '#06264F')}</div></div>
+  <div class="panel p"><span class="cap">Answer card: four states</span><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div class="opt"><span class="k">A</span>Ready</div><div class="opt picked"><span class="k">B</span>Picked</div>
+    <div class="opt right"><span class="k">C</span>Right<span class="st">${ic('check', 20)}</span></div><div class="opt wrong"><span class="k">D</span>Wrong<span class="st">${ic('x', 20)}</span></div></div></div>
+  <div class="panel p"><span class="cap">Sentence marks</span><div class="sent" style="font-size:36px">She <span class="hl">go</span> to school.</div><div class="sent" style="font-size:36px">She <span class="fx">goes</span> to school.</div></div>
+</div>
+<div class="col">
+  <div class="panel d"><span class="cap">Buttons</span><div class="row"><button class="btn chalk">Next question ${ic('arrow')}</button><button class="btn">${ic('keyboard')}Type instead</button></div>
+    <div class="row"><button class="btn">${ic('hand')}Hands up</button><button class="mic">${ic('mic')}</button><button class="mic live">${ic('mic')}</button><button class="mic off">${ic('micoff')}</button></div>
+    <div class="row"><button class="tool">${ic('list')}</button><button class="tool">${ic('repeat')}</button><button class="tool on">${ic('chat')}</button><button class="tool">${ic('sound')}</button><button class="tool">${ic('expand')}</button></div></div>
+  <div class="panel d"><span class="cap">Chips</span><div class="row"><span class="chip chalk">Your turn</span><span class="chip sky">Listening</span><span class="chip mint">Correct</span><span class="chip coral">1 fix</span><span class="chip">Mic off</span></div></div>
+  <div class="panel d"><span class="cap">Status bar</span><div class="status" style="height:60px;font-size:22px">${ic('ear', 26)}<span>Listening to Kabir…</span>${ribbon(18, 3)}</div></div>
+  <div class="panel d"><span class="cap">Progress</span><div class="steps" style="margin:0"><i class="done"></i><i class="done"></i><i class="now"></i><i></i><i></i><span>Question 3 of 5</span></div></div>
+</div>
+<div class="col">
+  <div class="panel d"><span class="cap">Speaker rail card</span><div class="who" style="display:flex;align-items:center;gap:12px;font:700 24px var(--display)">${av('Diya', 52)}Diya<span class="chip chalk" style="margin-left:auto">Your turn</span></div><div class="q" style="display:flex;gap:12px;align-items:center;font:700 22px var(--display)"><span class="n" style="width:34px;height:34px;border-radius:12px;background:var(--sky);color:#06264F;display:grid;place-items:center">1</span>Kabir</div></div>
+  <div class="panel d"><span class="cap">Timer and teacher</span><div class="row"><div class="ring" style="--s:92px;--p:62"><b>0:24</b></div>${ribbon(16, 2, 'big')}</div></div>
+  <div class="panel p"><span class="cap">Banners</span><div class="banner mint" style="font-size:22px">${ic('star', 28)}Spot on!</div><div class="banner coral" style="font-size:22px">${ic('bulb', 28)}Good try. Look at the green card.</div><div class="pausebar" style="font-size:22px">${ic('pause', 28)}Your teacher paused the tutor</div></div>
+  <div class="panel d"><span class="cap">Student tile</span><div class="row"><div class="st20 speak" style="width:112px;background:#FFFBEA;color:var(--ink)">${av('Diya', 52)}Diya${ribbon(9, 2)}</div><div class="st20 hand" style="width:112px;color:var(--ink)"><span class="badge">1</span>${av('Kabir', 52)}Kabir</div><div class="st20" style="width:112px;color:var(--ink)">${av('Meera', 52)}Meera</div></div></div>
+</div>`;
+</script></body></html>

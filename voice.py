@@ -13,6 +13,8 @@ from pathlib import Path
 
 import requests
 
+import speech_guard
+
 WHISPER_MODEL = os.getenv("WHISPER_MODEL", "base.en")  # small.en (~480 MB) hears accents better, but is slower
 VOICES = {"US female": "en_US-lessac-medium", "US male": "en_US-ryan-medium", "UK female": "en_GB-alba-medium"}
 VOICE_DIR = Path(__file__).parent / "voice_models"
@@ -75,11 +77,19 @@ def _download(url, path, tries=20):
     part.replace(path)
 
 
-def transcribe(audio):
-    """Recorded speech (file path or file-like, e.g. a WAV upload) -> text."""
+def listen(audio):
+    """Recorded speech (file path or file-like, e.g. a WAV upload) -> what was heard and whether to trust it (see speech_guard)."""
     # beam_size=1 (greedy) measured ~20% faster than the default 5 here, with the same transcript.
-    segments, _ = _whisper().transcribe(audio, language="en", vad_filter=True, initial_prompt=VERBATIM_HINT, beam_size=1)
-    return " ".join(s.text.strip() for s in segments).strip()
+    # Not carrying the last sentence into the next one stops Whisper repeating itself in a loop.
+    segments, info = _whisper().transcribe(audio, language="en", vad_filter=True, initial_prompt=VERBATIM_HINT, beam_size=1,
+                                           condition_on_previous_text=False)
+    return speech_guard.judge([{"text": s.text, "avg_logprob": s.avg_logprob, "no_speech_prob": s.no_speech_prob,
+                                "compression_ratio": s.compression_ratio} for s in segments], info.duration)
+
+
+def transcribe(audio):
+    """Just the words (trusted or not)."""
+    return listen(audio).text
 
 
 def _say_change(m):

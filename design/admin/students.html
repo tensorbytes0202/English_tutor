@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Students and classes</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ds.css">
+<style>
+  .cls { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--r-m); font-weight: 600; }
+  .cls.on { background: var(--ink); color: #fff; } .cls small { margin-left: auto; opacity: .7; font-weight: 500; }
+  .code { display: inline-flex; gap: 6px; align-items: center; padding: 8px 14px; border-radius: 12px; background: var(--sun-soft); color: var(--sun-ink); font: 700 18px var(--display); letter-spacing: .08em; }
+  .acc { display: grid; grid-template-columns: 90px 44px; gap: 10px; align-items: center; }
+</style></head>
+<body data-page="students">
+<div class="app"><nav class="side"></nav>
+<main class="main">
+  <div class="top">
+    <div><h1>Students and classes</h1><p class="sub" style="margin-top:8px">Students join with a class code and their first name. Nothing else is collected.</p></div>
+    <div class="acts"><button class="btn" data-i="down"> Import students</button><button class="btn primary" data-i="plus"> Add class</button></div>
+  </div>
+  <div class="grid" style="grid-template-columns:300px 1fr;align-items:start">
+    <section class="card" style="padding:14px;display:grid;gap:4px">
+      <div class="cls on">Class 6B <small>20</small></div><div class="cls">Class 6A <small>22</small></div><div class="cls">Class 5C <small>19</small></div>
+      <div class="cls">Class 4A <small>20</small></div><div class="cls">Class 3B <small>18</small></div><div class="cls">Class 2A <small>16</small></div><div class="cls">Pre-Group <small>14</small></div>
+    </section>
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div><h2>Class 6B</h2><p class="note" style="margin-top:4px">Grade 6. 20 students. Teacher: Ms. Asha.</p></div>
+        <div style="display:flex;align-items:center;gap:12px"><span class="note">Join code</span><span class="code">6B-4821</span><button class="btn sm">New code</button></div>
+      </div>
+      <table class="tbl"><thead><tr><th>Student</th><th>Grammar accuracy</th><th>Spoke this week</th><th>Last class</th><th></th></tr></thead><tbody>
+        <tr><td><div class="who"><span class="av" data-n="Diya"></span>Diya</div></td><td><div class="acc"><div class="meter"><i style="--w:86%"></i></div><b>86%</b></div></td><td>12 min</td><td>Today</td><td><span class="chip mint">On track</span></td></tr>
+        <tr><td><div class="who"><span class="av" data-n="Kabir"></span>Kabir</div></td><td><div class="acc"><div class="meter"><i style="--w:92%"></i></div><b>92%</b></div></td><td>9 min</td><td>Today</td><td><span class="chip mint">On track</span></td></tr>
+        <tr><td><div class="who"><span class="av" data-n="Meera"></span>Meera</div></td><td><div class="acc"><div class="meter sun"><i style="--w:64%"></i></div><b>64%</b></div></td><td>6 min</td><td>Today</td><td><span class="chip sun">Practise verbs</span></td></tr>
+        <tr><td><div class="who"><span class="av" data-n="Rohan"></span>Rohan</div></td><td><div class="acc"><div class="meter"><i style="--w:78%"></i></div><b>78%</b></div></td><td>8 min</td><td>Today</td><td><span class="chip mint">On track</span></td></tr>
+        <tr><td><div class="who"><span class="av" data-n="Aarav"></span>Aarav</div></td><td><div class="acc"><div class="meter coral"><i style="--w:41%"></i></div><b>41%</b></div></td><td>2 min</td><td>Today</td><td><span class="chip coral">Needs help</span></td></tr>
+        <tr><td><div class="who"><span class="av" data-n="Anaya"></span>Anaya</div></td><td><div class="acc"><div class="meter"><i style="--w:81%"></i></div><b>81%</b></div></td><td>10 min</td><td>Yesterday</td><td><span class="chip mint">On track</span></td></tr>
+        <tr><td><div class="who"><span class="av" data-n="Saanvi"></span>Saanvi</div></td><td><div class="acc"><div class="meter sun"><i style="--w:58%"></i></div><b>58%</b></div></td><td>5 min</td><td>Yesterday</td><td><span class="chip sun">Practise verbs</span></td></tr>
+      </tbody></table>
+    </section>
+  </div>
+</main></div>
+<script src="../assets/ui.js"></script></body></html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Classroom: choose a lesson</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/cr.css"></head><body>
+<script src="../assets/cr.js"></script>
+<script>
+CR.mount({
+  title: 'Choose a lesson',
+  teacher: { state: 'speaking', say: 'Good morning, Class 8! Pick a lesson to begin.' },
+  rail: { here: 18, queue: [] },
+  dock: { icon: 'list', status: 'Pick a lesson to start the class' },
+  board: `<span class="eyebrow chalk">${ic('star', 22)}Welcome</span><h1>Good morning, Class 8!</h1><p class="lead">Today we practise speaking English together. Listen to Ms. Asha, then take your turn.</p>`,
+  overlay: `<div class="sheet">
+    <div style="display:flex;align-items:center;justify-content:space-between"><h1>Choose today's lesson</h1><span class="chip" style="background:#E8ECF8;color:var(--soft);font-size:19px;padding:6px 16px">Voice: US female</span></div>
+    <div class="lessons">
+      <div class="lc"><span class="ico">${ic('book')}</span><h2>Present simple: he, she, it</h2><p>The verb takes -s or -es.</p><span class="chip" style="background:#E8ECF8;color:var(--soft);justify-self:start">5 questions</span></div>
+      <div class="lc"><span class="ico">${ic('redo')}</span><h2>Past simple: finished actions</h2><p>Yesterday, last week, an hour ago.</p><span class="chip" style="background:#E8ECF8;color:var(--soft);justify-self:start">5 questions</span></div>
+      <div class="lc"><span class="ico">${ic('bulb')}</span><h2>A or an?</h2><p>Use an before a vowel sound.</p><span class="chip" style="background:#E8ECF8;color:var(--soft);justify-self:start">4 questions</span></div>
+      <div class="lc free"><span class="ico">${ic('mic')}</span><h2>Free practice</h2><p>Say any English sentence. The tutor corrects it and explains each mistake.</p><span class="chip chalk" style="background:#fff;color:var(--chalk-ink);justify-self:start">Open</span></div>
+    </div></div>`,
+});
+</script></body></html>

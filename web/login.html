@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #101B3A; --muted: #5D6A8C; --line: #DDE3EF; --sun: #FF8A1F; --coral: #9F2227; --display: 'Bricolage Grotesque', system-ui, sans-serif; --text: 'Figtree', system-ui, sans-serif; }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: var(--text); color: var(--ink); display: grid; grid-template-columns: 1.1fr 1fr; min-height: 100vh; background: #F1F4FA; }
+  .left { background: var(--ink); color: #fff; padding: 48px 64px; display: flex; flex-direction: column; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; font: 700 18px var(--display); }
+  .mark { width: 38px; height: 38px; border-radius: 12px 12px 12px 4px; background: var(--sun); color: var(--ink); display: grid; place-items: center; font: 800 18px var(--display); }
+  .left h1 { font: 800 56px/1.05 var(--display); letter-spacing: -.02em; max-width: 480px; }
+  .left p { color: #AEB9DC; margin-top: 16px; font-size: 18px; max-width: 420px; }
+  .right { display: grid; place-items: center; padding: 48px; }
+  form { width: min(400px, 100%); display: grid; gap: 18px; }
+  h2 { font: 700 30px var(--display); letter-spacing: -.02em; }
+  label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+  input { width: 100%; font: 500 16px var(--text); padding: 13px 16px; border: 0; border-radius: 14px; box-shadow: inset 0 0 0 1.5px var(--line); background: #fff; color: var(--ink); }
+  input:focus-visible, button:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+  button { border: 0; border-radius: 999px; padding: 15px 24px; font: 700 17px var(--text); background: var(--ink); color: #fff; cursor: pointer; }
+  button:disabled { opacity: .6; cursor: wait; }
+  .err { color: var(--coral); font-weight: 600; font-size: 14px; min-height: 20px; }
+  .note { color: var(--muted); font-size: 13px; }
+  @media (max-width: 800px) { body { grid-template-columns: 1fr; } .left { display: none; } }
+</style></head>
+<body>
+  <section class="left">
+    <div class="brand"><span class="mark">Aa</span>Open Minds Tutor</div>
+    <div><h1>Every student gets a turn to speak.</h1><p>Sign in to manage classes, schedules and how each student is doing.</p></div>
+    <span class="note" style="color:#8E9BC4">Student voices are never stored or used to train models.</span>
+  </section>
+  <section class="right">
+    <form id="form">
+      <div><h2>Sign in</h2><p class="note" style="margin-top:6px">Use the account your school gave you.</p></div>
+      <label>Username<input name="username" autocomplete="username" required maxlength="64" autofocus></label>
+      <label>Password<input name="password" type="password" autocomplete="current-password" required maxlength="128"></label>
+      <p class="err" id="error" role="alert"></p>
+      <button type="submit" id="submit">Sign in</button>
+      <span class="note">Forgot your password? Ask the school admin to reset it.</span>
+    </form>
+  </section>
+<script>
+  // Only go back to a page on this site (a path such as /admin/index.html), never to another address.
+  const next = (() => {
+    const wanted = new URLSearchParams(location.search).get('next') || '';
+    return /^\/(?!\/)[^\\]*$/.test(wanted) ? wanted : '/admin/index.html';
+  })();
+
+  document.getElementById('form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = document.getElementById('submit'), error = document.getElementById('error');
+    error.textContent = '';
+    button.disabled = true;
+    try {
+      const form = new FormData(event.target);
+      const res = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: form.get('username'), password: form.get('password') }) });
+      if (res.ok) { location.href = next; return; }
+      const data = await res.json().catch(() => ({}));
+      error.textContent = res.status === 429 ? `${data.detail} (${res.headers.get('Retry-After')} seconds)` : data.detail || 'Something went wrong. Try again.';
+    } catch {
+      error.textContent = "Can't reach the server. Check your connection and try again.";
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script></body></html>

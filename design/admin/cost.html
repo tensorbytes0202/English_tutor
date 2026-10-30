@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cost and usage</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ds.css">
+<style>
+  .stack { display: flex; height: 22px; border-radius: 999px; overflow: hidden; margin: 16px 0 12px; }
+  .stack i { display: block; } .key { display: flex; gap: 22px; flex-wrap: wrap; font-size: 14px; font-weight: 600; }
+  .key span::before { content: ''; display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--c); margin-right: 8px; }
+  .cap { display: grid; grid-template-columns: 130px 56px; gap: 10px; align-items: center; }
+  .rule { display: flex; gap: 14px; padding: 14px 0; border-top: 1.5px solid var(--bg); align-items: flex-start; } .rule:first-of-type { border-top: 0; }
+</style></head>
+<body data-page="cost">
+<div class="app"><nav class="side"></nav>
+<main class="main">
+  <div class="top">
+    <div><h1>Cost and usage</h1><p class="sub" style="margin-top:8px">A live estimate for every class. The tutor pauses by itself when a class reaches $3.00.</p></div>
+    <div class="acts"><span class="chip ink" style="padding:9px 16px">Today</span><button class="btn" data-i="down"> Export</button></div>
+  </div>
+  <section class="grid g3" style="margin-bottom:20px">
+    <div class="card stat"><div class="lbl">Spent today</div><div class="big num">$9.84</div><span class="chip">14 classes</span></div>
+    <div class="card stat"><div class="lbl">Average per class</div><div class="big num">$0.70</div><span class="chip mint">77% under the cap</span></div>
+    <div class="card stat"><div class="lbl">Highest class</div><div class="big num">$2.46</div><span class="chip sun">Class 4A, still running</span></div>
+  </section>
+  <section class="grid" style="grid-template-columns:1.6fr 1fr;align-items:start">
+    <div class="grid">
+      <div class="card">
+        <h2 style="margin-bottom:10px">Classes right now</h2>
+        <table class="tbl"><thead><tr><th>Class</th><th>Time</th><th>Voice</th><th>Replies</th><th>Estimated cost</th></tr></thead><tbody>
+          <tr><td><b>Class 4A</b><br><span class="chip sun" style="margin-top:4px">82% of cap</span></td><td>36:05</td><td>29.4 min</td><td>388</td><td><div class="cap"><div class="meter sun"><i style="--w:82%"></i></div><b class="num">$2.46</b></div></td></tr>
+          <tr><td><b>Class 6B</b></td><td>23:41</td><td>14.2 min</td><td>212</td><td><div class="cap"><div class="meter"><i style="--w:47%"></i></div><b class="num">$1.42</b></div></td></tr>
+          <tr><td><b>Class 7A</b></td><td>09:12</td><td>5.1 min</td><td>74</td><td><div class="cap"><div class="meter"><i style="--w:14%"></i></div><b class="num">$0.43</b></div></td></tr>
+        </tbody></table>
+      </div>
+      <div class="card">
+        <h2>Where the money goes today</h2>
+        <div class="stack"><i style="width:22%;background:#3D9BF0"></i><i style="width:41%;background:#101B3A"></i><i style="width:27%;background:#FF8A1F"></i><i style="width:10%;background:#C9D1E4"></i></div>
+        <div class="key"><span style="--c:#3D9BF0">Listening 22%</span><span style="--c:#101B3A">Tutor replies 41%</span><span style="--c:#FF8A1F">Tutor voice 27%</span><span style="--c:#C9D1E4">Servers 10%</span></div>
+        <p class="note" style="margin-top:14px">Estimates from server time used. Figures are samples for this mockup.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Spending limit</h2>
+      <label class="field" style="margin:16px 0 4px">Limit for each 45-minute class<input value="$3.00" style="font:700 28px var(--display)"/></label>
+      <div class="rule"><span class="chip sun">80%</span><div><b>Warn the teacher</b><p class="note">A banner appears on the live class screen.</p></div></div>
+      <div class="rule"><span class="chip coral">100%</span><div><b>Pause the tutor</b><p class="note">Replies stop. Students can still raise a hand, and you can add more budget.</p></div></div>
+      <div class="rule"><span class="toggle"></span><div><b>Limit is on</b><p class="note">Last time it paused a class: never.</p></div></div>
+      <button class="btn primary" style="width:100%;margin-top:6px">Save limit</button>
+    </div>
+  </section>
+</main></div>
+<script src="../assets/ui.js"></script></body></html>

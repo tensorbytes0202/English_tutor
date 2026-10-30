@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Classroom: free practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/cr.css"></head><body>
+<script src="../assets/cr.js"></script>
+<script>
+CR.mount({
+  title: 'Free practice', step: { n: 1, total: 1, label: 'Free practice' },
+  teacher: { state: 'speaking', say: 'Good try, Aarav! Two small changes.' },
+  rail: { now: { name: 'Aarav', state: 'Checked', tone: 'chalk' }, queue: ['Anaya', 'Saanvi'], here: 18 },
+  dock: { icon: 'mic', status: 'Say or type another sentence', wave: 'calm', type: true, mic: '' },
+  board: `<span class="eyebrow">${ic('mic', 22)}Free practice</span>
+    <div class="block coral" style="padding:14px 24px"><span class="label">Aarav said</span><div class="sent" style="font-size:38px">She <span class="hl">don't</span> <span class="hl">likes</span> to wake up early.</div></div>
+    <div class="block mint" style="padding:14px 24px"><span class="label">Say it like this</span><div class="sent" style="font-size:38px">She <span class="fx">doesn't like</span> to wake up early.</div></div>
+    <div class="block" style="padding:8px 24px 6px"><span class="label">What changed</span>
+      <div class="fixrow"><s>don't</s>${ic('arrow', 26)}<b>doesn't</b><span class="why">With she, use doesn't.</span></div>
+      <div class="fixrow"><s>likes</s>${ic('arrow', 26)}<b>like</b><span class="why">After doesn't, the verb stays simple.</span></div></div>
+    <div class="banner chalk push" style="padding:12px 20px">${ic('star', 30)}<div style="font-size:23px">Tip: after "doesn't", never add -s to the verb.</div></div>`,
+});
+</script></body></html>

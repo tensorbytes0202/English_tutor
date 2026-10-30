@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Student dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css"></head>
+<body><div class="app"><nav class="side" id="side"></nav><main class="main" id="main"></main></div>
+<script type="module">
+import { accuracy, api, chart, el, minutes, money, pct, shell, shortDate } from './admin.js';
+
+const main = shell('users');
+const id = Number(new URLSearchParams(location.search).get('id'));
+
+try {
+  const { student, summary, weekly, chapters, recent, rates } = await api(`/students/${id}/dashboard`);
+  document.title = `${student.name}: dashboard`;
+  const delta = summary.delta;
+  const costs = summary.total_cost;
+  const stat = (label, value, note) => el('div', { class: 'card stat' }, el('div', { class: 'lbl' }, label), el('div', { class: 'big num' }, value), note);
+  const maxCost = Math.max(...weekly.map((w) => w.cost), 0.0001);
+
+  main.append(
+    el('div', { class: 'top' }, el('div', {}, el('a', { class: 'crumb', href: `students.html?class=${student.class_id}` }, `← ${student.class_name}`),
+      el('h1', {}, student.name), el('p', { class: 'sub' }, `${student.class_name}${student.roll_no ? ` · Roll ${student.roll_no}` : ''}`))),
+
+    el('section', { class: 'grid g4' },
+      stat('Accuracy this week', pct(summary.week_accuracy),
+        delta == null ? el('span', { class: 'chip' }, 'No last week to compare')
+          : el('span', { class: `chip ${delta >= 0 ? 'mint' : 'coral'}` }, `${delta >= 0 ? '▲' : '▼'} ${Math.abs(Math.round(delta * 100))} points vs last week`)),
+      stat('Speaking this week', minutes(summary.minutes), el('span', { class: 'chip' }, `${summary.assessments} assessments`)),
+      stat('Cost this week', money(summary.week_cost.total), el('span', { class: 'chip' }, `${money(costs.total)} in total`)),
+      stat('Chapters attempted', String(chapters.length), el('span', { class: 'chip' }, `${chapters.reduce((n, c) => n + c.attempts, 0)} attempts`))),
+
+    el('section', { class: 'grid g2', style: 'margin-top:20px' },
+      el('div', { class: 'card' }, el('h2', {}, 'Accuracy by week'),
+        chart(weekly.map((w) => ({ label: shortDate(w.week), value: w.accuracy })), { max: 1, format: (v) => pct(v) })),
+      el('div', { class: 'card' }, el('h2', {}, 'Cost by week'),
+        chart(weekly.map((w) => ({ label: shortDate(w.week), value: w.cost })), { kind: 'bars', max: maxCost, format: money }))),
+
+    el('section', { class: 'grid g2', style: 'margin-top:20px' },
+      el('div', { class: 'card' }, el('h2', {}, 'Where the cost comes from'),
+        el('div', { class: 'split-cost' }, el('i', { style: `width:${costs.total ? (costs.voice / costs.total) * 100 : 0}%;background:#3D9BF0` }),
+          el('i', { style: `width:${costs.total ? (costs.tutor / costs.total) * 100 : 0}%;background:#101B3A` })),
+        el('div', { class: 'key' }, el('span', { style: '--c:#3D9BF0' }, `Voice ${money(costs.voice)}`), el('span', { style: '--c:#101B3A' }, `Tutor replies ${money(costs.tutor)}`)),
+        el('p', { class: 'note', style: 'margin-top:14px' }, `Estimated at ${money(rates.voice_per_min)} per minute of voice and ${money(rates.tutor_per_1k_tokens)} per 1,000 tokens. Replace these rates with measured server costs.`)),
+      el('div', { class: 'card' }, el('h2', {}, 'Latest assessments'),
+        recent.length ? recent.map((r) => el('div', { class: 'recent' }, el('span', {}, r.title),
+          el('span', { class: `chip ${r.correct / r.total >= 0.7 ? 'mint' : 'sun'}` }, `${r.correct}/${r.total}`), el('span', { class: 'note' }, shortDate(r.taken_at))))
+          : el('p', { class: 'empty' }, 'No assessments yet. Results appear here after the student finishes a lesson.'))),
+
+    el('section', { class: 'card', style: 'margin-top:20px' }, el('h2', {}, 'Chapter by chapter'),
+      chapters.length ? el('table', { class: 'tbl' },
+        el('thead', {}, el('tr', {}, ['Chapter', 'Attempts', 'Accuracy', 'Speaking', 'Cost', 'Last taken', ''].map((h) => el('th', {}, h)))),
+        el('tbody', {}, chapters.map((c) => el('tr', {}, el('td', {}, el('b', {}, c.title)), el('td', {}, String(c.attempts)),
+          el('td', {}, accuracy(c.accuracy)), el('td', {}, minutes(c.minutes)), el('td', {}, money(c.cost)), el('td', {}, shortDate(c.last_taken)),
+          el('td', {}, c.accuracy < 0.6 ? el('span', { class: 'chip sun' }, 'Needs practice') : null)))))
+        : el('p', { class: 'empty' }, 'No chapters attempted yet.')));
+} catch (err) {
+  main.append(el('div', { class: 'top' }, el('h1', {}, 'Student not found')), el('p', { class: 'empty card' }, err.message, ' ', el('a', { href: 'students.html' }, 'Back to students')));
+}
+</script></body></html>

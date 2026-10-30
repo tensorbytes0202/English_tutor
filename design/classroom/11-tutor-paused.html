@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Classroom: tutor paused</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/cr.css"></head><body>
+<script src="../assets/cr.js"></script>
+<script>
+CR.mount({
+  title: 'Present simple: he, she, it', step: { n: 3, total: 5 },
+  teacher: { state: 'paused' },
+  rail: { now: { name: 'Your teacher', state: 'In charge', tone: 'chalk' }, queue: ['Kabir', 'Meera', 'Rohan'], here: 18 },
+  dock: { icon: 'pause', status: 'The tutor is paused. Your teacher will start it again.', mic: 'off' },
+  paused: `<div class="pausebar">${ic('pause', 36)}<div>Your teacher paused the tutor<small>Wait for your teacher. Hands can stay up.</small></div></div>`,
+  board: `<span class="eyebrow">${ic('check', 22)}Choose the right answer</span>
+    <h1>Which sentence is correct?</h1>
+    <div class="opts mid"><div class="opt"><span class="k">A</span>He go home.</div><div class="opt"><span class="k">B</span>He goes home.</div><div class="opt"><span class="k">C</span>He going home.</div><div class="opt"><span class="k">D</span>He gose home.</div></div>`,
+});
+</script></body></html>

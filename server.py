@@ -11,6 +11,7 @@ import base64
 import io
 import itertools
 import json
+import os
 import random
 import re
 import threading
@@ -24,13 +25,16 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from starlette.concurrency import run_in_threadpool
 
+import auth
+import config
 import voice
+from admin import db
+from admin.api import router as admin_router
+from lessons import BY_ID, LESSONS
 from tutor import (BASE_MODEL, RIGHT_OPENERS, TEACHER_MODEL, TUNED_MODEL, WRONG_OPENERS, installed_models, stream,
                    teacher_stream, warm)
 
 ROOT = Path(__file__).parent
-LESSONS = json.loads((ROOT / "lessons.json").read_text(encoding="utf-8"))
-BY_ID = {lesson["id"]: lesson for lesson in LESSONS["lessons"]}
 LETTERS = "ABCD"
 UNREACHABLE = "I can't reply right now"
 # Said the moment the corrector's first words show whether the sentence was right, before the rest is written.
@@ -61,11 +65,20 @@ def warm_up():
 
 @asynccontextmanager
 async def lifespan(app):
+    db.init()
+    try:
+        config.jwt_secret()
+        if auth.bootstrap():
+            print(f"Created the first admin '{os.getenv('ADMIN_USERNAME')}'. Remove ADMIN_PASSWORD from .env now.")
+    except RuntimeError as err:
+        print(f"Admin sign-in is OFF: {err}")
     threading.Thread(target=warm_up, daemon=True).start()
     yield
 
 
 app = FastAPI(title="English smart board", lifespan=lifespan)
+auth.install(app)
+app.include_router(admin_router)
 
 
 class Answer(BaseModel):
@@ -145,7 +158,8 @@ async def transcribe(request: Request):
     audio = await request.body()
     if not audio:
         raise HTTPException(400, "No audio was received. Press the mic, speak, then press it again.")
-    return {"text": await run_in_threadpool(voice.transcribe, io.BytesIO(audio))}
+    heard = await run_in_threadpool(voice.listen, io.BytesIO(audio))
+    return {"text": heard.text, "trusted": heard.trusted, "reason": heard.reason}
 
 
 @app.post("/api/feedback")

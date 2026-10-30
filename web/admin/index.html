@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Classes</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css"></head>
+<body><div class="app"><nav class="side" id="side"></nav><main class="main" id="main"></main></div>
+<script type="module">
+import { api, el, form, gradeLabel, shell, toast } from './admin.js';
+
+const main = shell('classes');
+const list = el('div', { class: 'classes' });
+main.append(
+  el('div', { class: 'top' }, el('div', {}, el('h1', {}, 'Classes'), el('p', { class: 'sub' }, 'Every class, its teacher and how many students it has.'))),
+  el('div', { class: 'split' }, el('section', {}, list), el('section', { class: 'card' }, el('h2', {}, 'Add a class'),
+    form([
+      { name: 'name', label: 'Class name', placeholder: 'Class 6B', required: true, maxlength: 40 },
+      { name: 'grade', label: 'Grade', number: true, value: 6, options: [[0, 'Pre-Group'], ...[1, 2, 3, 4, 5, 6, 7, 8].map((g) => [g, `Grade ${g}`])] },
+      { name: 'teacher', label: 'Teacher', placeholder: 'Ms. Asha', maxlength: 40 },
+    ], 'Add class', async (values) => {
+      await api('/classes', { method: 'POST', body: values });
+      toast(`Added ${values.name}`);
+      await load();
+    }))));
+
+async function load() {
+  const classes = await api('/classes');
+  list.replaceChildren(...(classes.length ? classes.map((c) => el('a', { class: 'cls', href: `students.html?class=${c.id}` },
+    el('h3', {}, c.name), el('span', { class: 'sub' }, `${gradeLabel(c.grade)}${c.teacher ? ` · ${c.teacher}` : ''}`),
+    el('span', { class: 'chip sky' }, `${c.students} ${c.students === 1 ? 'student' : 'students'}`)))
+    : [el('p', { class: 'empty card' }, 'No classes yet. Add your first class on the right.')]));
+}
+load();
+</script></body></html>

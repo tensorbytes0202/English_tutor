@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lessons</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ds.css">
+<style>
+  .step { display: grid; grid-template-columns: 40px 1fr auto; gap: 14px; padding: 14px; border-radius: var(--r-m); box-shadow: inset 0 0 0 1.5px var(--line); align-items: start; margin-top: 10px; }
+  .step.on { box-shadow: inset 0 0 0 2px var(--sun); background: #FFF8F0; }
+  .step .k { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--bg); font: 700 16px var(--display); }
+  .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; font-size: 14px; font-weight: 600; }
+  .opts span { padding: 8px 12px; border-radius: 10px; background: var(--bg); } .opts span.ok { background: var(--mint-soft); color: var(--mint-ink); }
+  .filters { display: flex; gap: 8px; margin-bottom: 14px; }
+</style></head>
+<body data-page="lessons">
+<div class="app"><nav class="side"></nav>
+<main class="main">
+  <div class="top">
+    <div><h1>Lessons</h1><p class="sub" style="margin-top:8px">Students only see lessons you have published.</p></div>
+    <div class="acts"><button class="btn primary" data-i="plus"> New lesson</button></div>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 540px;align-items:start">
+    <section class="card">
+      <div class="filters"><span class="chip ink">All</span><span class="chip">Published</span><span class="chip">Drafts</span><span class="chip">Grades 3 to 5</span><span class="chip">Grades 6 to 8</span></div>
+      <table class="tbl"><thead><tr><th>Lesson</th><th>Grades</th><th>Steps</th><th>Status</th><th>Edited</th></tr></thead><tbody>
+        <tr style="background:#FFF8F0"><td><b>Present simple: he, she, it</b></td><td>3 to 8</td><td>5</td><td><span class="chip mint">Published</span></td><td>Today</td></tr>
+        <tr><td><b>Past simple: finished actions</b></td><td>4 to 8</td><td>5</td><td><span class="chip mint">Published</span></td><td>Yesterday</td></tr>
+        <tr><td><b>A or an?</b></td><td>1 to 5</td><td>4</td><td><span class="chip sun">Needs approval</span></td><td>Today</td></tr>
+        <tr><td><b>Free speaking</b></td><td>Pre-Group to 8</td><td>Open</td><td><span class="chip mint">Published</span></td><td>3 days ago</td></tr>
+        <tr><td><b>Question words</b></td><td>2 to 5</td><td>6</td><td><span class="chip">Draft</span></td><td>Last week</td></tr>
+        <tr><td><b>Describing my family</b></td><td>Pre-Group to 2</td><td>5</td><td><span class="chip">Draft</span></td><td>Last week</td></tr>
+      </tbody></table>
+    </section>
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center"><h2>Present simple: he, she, it</h2><span class="chip mint">Published</span></div>
+      <p class="note" style="margin-top:6px">Question 3 of 5. Students answer by speaking or tapping.</p>
+      <div class="step"><span class="k">1</span><div><b>Which word fits? "She ___ to school."</b></div><span class="chip">Choose</span></div>
+      <div class="step"><span class="k">2</span><div><b>Say it correctly: "He play cricket."</b></div><span class="chip">Say it</span></div>
+      <div class="step on"><span class="k">3</span><div><b>Which sentence is correct?</b>
+        <div class="opts"><span>A. He go home.</span><span class="ok">B. He goes home.</span><span>C. He going home.</span><span>D. He gose home.</span></div>
+        <label class="field" style="margin-top:14px">Why it's right (the tutor says this)<input value="With he, she and it, the verb takes -s or -es." /></label></div><span class="chip sun">Editing</span></div>
+      <div class="step"><span class="k">4</span><div><b>Tell me what your sister does on Sundays.</b></div><span class="chip">Speak</span></div>
+      <div style="display:flex;gap:10px;margin-top:18px"><button class="btn primary">Save changes</button><button class="btn">Preview as a student</button></div>
+    </section>
+  </div>
+</main></div>
+<script src="../assets/ui.js"></script></body></html>

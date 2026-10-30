@@ -7,3 +7,7 @@
 !lessons.json
 !web
 !web/**
+!lessons.py
+!admin
+!admin/**
+**/__pycache__

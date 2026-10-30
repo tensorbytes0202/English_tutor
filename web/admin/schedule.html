@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css"></head>
+<body><div class="app"><nav class="side" id="side"></nav><main class="main" id="main"></main></div>
+<script type="module">
+import { api, el, form, icon, shell, toast } from './admin.js';
+
+const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const main = shell('calendar');
+const week = el('div', { class: 'week' });
+const side = el('section', { class: 'card' }, el('h2', {}, 'Add a class to the week'));
+main.append(
+  el('div', { class: 'top' }, el('div', {}, el('h1', {}, 'Schedule'), el('p', { class: 'sub' }, 'Which class has which lesson, and when.'))),
+  el('div', { class: 'stack' }, el('section', { class: 'card' }, week), side));
+
+const end = (start, mins) => {
+  const total = Number(start.slice(0, 2)) * 60 + Number(start.slice(3)) + mins;
+  return `${String(Math.floor(total / 60) % 24).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+};
+
+async function load() {
+  const sessions = await api('/schedule');
+  week.replaceChildren(...DAYS.map((day, i) => el('div', { class: 'day' }, el('h3', {}, day.slice(0, 3)),
+    ...sessions.filter((s) => s.weekday === i).map((s) => el('div', { class: 'sess' },
+      el('div', { class: 'row' }, el('b', {}, `${s.start}–${end(s.start, s.minutes)}`),
+        el('button', { class: 'btn icon sm', title: 'Remove this session', 'aria-label': `Remove ${s.class_name} on ${day}`,
+          async onclick() { await api(`/schedule/${s.id}`, { method: 'DELETE' }); toast('Session removed'); load(); } }, icon('trash'))),
+      el('span', {}, s.class_name), el('span', { class: 'note' }, s.title))))));
+}
+
+async function init() {
+  const [classes, lessons] = await Promise.all([api('/classes'), api('/lessons')]);
+  if (!classes.length) {
+    side.append(el('p', { class: 'empty' }, 'Add a class first, then come back to schedule it. ', el('a', { href: 'index.html' }, 'Go to Classes')));
+  } else {
+    side.append(form([
+      { name: 'class_id', label: 'Class', number: true, options: classes.map((c) => [c.id, c.name]) },
+      { name: 'weekday', label: 'Day', number: true, options: DAYS.map((d, i) => [i, d]) },
+      { name: 'start', label: 'Starts at', type: 'time', value: '08:10', required: true },
+      { name: 'minutes', label: 'Minutes', type: 'number', number: true, value: 45, min: 10, max: 120 },
+      { name: 'lesson_id', label: 'Lesson', options: lessons.map((l) => [l.id, l.title]) },
+    ], 'Add to schedule', async (values) => {
+      await api('/schedule', { method: 'POST', body: values });
+      toast('Added to the schedule');
+      await load();
+    }, 'row'));
+  }
+  load();
+}
+init();
+</script></body></html>

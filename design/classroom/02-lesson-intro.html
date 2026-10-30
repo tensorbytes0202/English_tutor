@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Classroom: lesson intro</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/cr.css"></head><body>
+<script src="../assets/cr.js"></script>
+<script>
+CR.mount({
+  title: 'Present simple: he, she, it', step: { n: 0, total: 5, label: 'Lesson intro' },
+  teacher: { state: 'speaking', say: "Let's learn how verbs change with he, she and it." },
+  rail: { now: { name: 'Ms. Asha', role: 'teacher', state: 'Teaching', tone: 'chalk' }, here: 18 },
+  dock: { icon: 'ear', status: 'Listen to Ms. Asha first', wave: 'big', next: 'Start questions' },
+  board: `<span class="eyebrow">${ic('book', 22)}Today's lesson</span>
+    <h1>Present simple: he, she, it</h1>
+    <p class="lead">When the subject is he, she or it, the verb takes <b>-s</b> or <b>-es</b>.</p>
+    <div class="block"><span class="label">Example</span>
+      <div class="strip"><div class="w"><b>She</b><em>Who</em></div><div class="w verb"><b>goes</b><em>Verb + es</em></div><div class="w"><b>to school</b><em>Where</em></div><div class="w"><b>every day</b><em>When</em></div></div></div>
+    <div class="banner chalk">${ic('sound', 34)}<div>Say it with Ms. Asha<small>He goes to school every day.</small></div></div>
+    <div class="push" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="block"><span class="label">I, you, we, they</span><span style="font:700 32px var(--display)">I go · You go · We go</span></div>
+      <div class="block mint"><span class="label">He, she, it</span><span style="font:700 32px var(--display)">He go<span class="fx suf">es</span> · She play<span class="fx suf">s</span></span></div></div>`,
+});
+</script></body></html>

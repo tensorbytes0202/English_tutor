@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ds.css">
+<style>
+  .livecard { display: grid; grid-template-columns: repeat(3, 1fr); padding: 0; overflow: hidden; background: var(--ink); color: #fff; }
+  .livecard header { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; padding: 18px 26px 6px; }
+  .livecard .cls { padding: 14px 26px 24px; border-left: 1.5px solid #243566; display: grid; gap: 10px; }
+  .livecard .cls:nth-of-type(1) { border-left: 0; }
+  .livecard .cls h3 { font-size: 22px; } .livecard .cls p { color: #AEB9DC; font-size: 14px; }
+  .livecard .meter { background: #243566; } .livecard .row { display: flex; justify-content: space-between; font-size: 14px; color: #AEB9DC; }
+  .bar { display: grid; grid-template-columns: 180px 1fr 60px; align-items: center; gap: 14px; margin: 14px 0; font-weight: 600; }
+  .bar .meter { height: 14px; } .bar i { background: var(--sun) !important; }
+  .attn { display: flex; gap: 14px; padding: 14px 0; border-top: 1.5px solid var(--bg); } .attn:first-of-type { border-top: 0; }
+  .attn .ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+</style></head>
+<body data-page="index">
+<div class="app"><nav class="side"></nav>
+<main class="main">
+  <div class="top">
+    <div><h1>Good morning, Mrs. Kapoor</h1><p class="sub" style="margin-top:8px">Tuesday 24 October. Three classes are live right now.</p></div>
+    <div class="acts"><button class="btn" data-i="down"> Export today</button><button class="btn primary" data-i="plus"> Schedule a class</button></div>
+  </div>
+
+  <section class="card livecard" style="margin-bottom:20px">
+    <header><span class="chip sun"><span class="dot"></span>Live now</span><span style="color:#AEB9DC;font-size:14px">Open a class to mute the tutor or step in.</span></header>
+    <div class="cls"><h3>Class 6B</h3><p>Present simple: he, she, it</p><div class="ribbon live" data-n="26" data-seed="1"></div>
+      <div class="row"><span>18 of 20 joined</span><span>23:41 / 45:00</span></div><div class="meter"><i style="--w:47%"></i></div><div class="row"><span>$1.42 of $3.00</span><a style="color:#fff;font-weight:600">Open</a></div></div>
+    <div class="cls"><h3>Class 4A</h3><p>Past simple: finished actions</p><div class="ribbon live" data-n="26" data-seed="3"></div>
+      <div class="row"><span>20 of 20 joined</span><span>36:05 / 45:00</span></div><div class="meter sun"><i style="--w:82%"></i></div><div class="row"><span style="color:#FFB36B">$2.46 of $3.00</span><a style="color:#fff;font-weight:600">Open</a></div></div>
+    <div class="cls"><h3>Class 7A</h3><p>A or an?</p><div class="ribbon live" data-n="26" data-seed="5"></div>
+      <div class="row"><span>16 of 18 joined</span><span>09:12 / 45:00</span></div><div class="meter"><i style="--w:14%"></i></div><div class="row"><span>$0.43 of $3.00</span><a style="color:#fff;font-weight:600">Open</a></div></div>
+  </section>
+
+  <section class="grid g4" style="margin-bottom:20px">
+    <div class="card stat"><div class="lbl" data-i="live"> Classes today</div><div class="big num">14</div><span class="chip mint">11 finished</span></div>
+    <div class="card stat"><div class="lbl" data-i="clock"> Reply time</div><div class="big num">0.62 s</div><span class="chip sun">Goal 0.5 s</span></div>
+    <div class="card stat"><div class="lbl" data-i="coin"> Spent today</div><div class="big num">$9.84</div><span class="chip">About $0.70 a class</span></div>
+    <div class="card stat"><div class="lbl" data-i="shield"> Uptime this week</div><div class="big num">99.9%</div><span class="chip mint">8 AM to 4 PM</span></div>
+  </section>
+
+  <section class="grid" style="grid-template-columns:1.25fr 1fr;margin-bottom:20px">
+    <div class="card">
+      <h2>Where the reply time goes</h2><p class="sub" style="margin:6px 0 10px">From the moment a student stops talking to the tutor's first word.</p>
+      <div class="bar"><span>Waiting for silence</span><div class="meter"><i style="--w:67%"></i></div><span class="num">0.20 s</span></div>
+      <div class="bar"><span>Writing down speech</span><div class="meter"><i style="--w:47%"></i></div><span class="num">0.14 s</span></div>
+      <div class="bar"><span>Thinking of a reply</span><div class="meter"><i style="--w:53%"></i></div><span class="num">0.16 s</span></div>
+      <div class="bar"><span>Speaking it</span><div class="meter"><i style="--w:40%"></i></div><span class="num">0.12 s</span></div>
+      <p class="note" style="margin-top:6px">Sample figures for this mockup.</p>
+    </div>
+    <div class="card">
+      <h2>Needs a look</h2>
+      <div class="attn"><span class="ic" style="background:var(--sun-soft);color:var(--sun-ink)" data-i="coin"></span><div><b>Class 4A is at 82% of its $3.00 cap</b><p class="note">The tutor pauses by itself at 100%.</p></div></div>
+      <div class="attn"><span class="ic" style="background:var(--coral-soft);color:var(--coral-ink)" data-i="mic"></span><div><b>Aarav's microphone keeps dropping</b><p class="note">Class 6B. Ask him to rejoin on the same device.</p></div></div>
+      <div class="attn"><span class="ic" style="background:var(--sky-soft);color:var(--sky-ink)" data-i="book"></span><div><b>"A or an?" is waiting for approval</b><p class="note">Students can't see it until you publish it.</p></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h2>Recent classes</h2><button class="btn sm">See all</button></div>
+    <table class="tbl"><thead><tr><th>Class</th><th>Lesson</th><th>Started</th><th>Students</th><th>Reply time</th><th>Cost</th><th></th></tr></thead><tbody>
+      <tr><td><b>Class 5C</b></td><td>Articles</td><td>08:10</td><td>19</td><td>0.58 s</td><td>$0.71</td><td><span class="chip mint">Finished</span></td></tr>
+      <tr><td><b>Class 3B</b></td><td>Present simple: he, she, it</td><td>08:55</td><td>17</td><td>0.61 s</td><td>$0.66</td><td><span class="chip mint">Finished</span></td></tr>
+      <tr><td><b>Class 8A</b></td><td>Past simple: finished actions</td><td>09:40</td><td>20</td><td>0.74 s</td><td>$0.83</td><td><span class="chip sun">Slow replies</span></td></tr>
+      <tr><td><b>Class 2A</b></td><td>Free speaking</td><td>10:25</td><td>14</td><td>0.55 s</td><td>$0.52</td><td><span class="chip mint">Finished</span></td></tr>
+    </tbody></table>
+  </section>
+</main></div>
+<script src="../assets/ui.js"></script></body></html>

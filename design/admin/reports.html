@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reports</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ds.css">
+<style>
+  .hb { display: grid; grid-template-columns: 190px 1fr 46px; gap: 14px; align-items: center; margin: 14px 0; font-weight: 600; font-size: 15px; }
+  .hb .meter { height: 14px; } .hb .meter i { background: var(--ink); }
+  .hb.top .meter i { background: var(--sun); }
+</style></head>
+<body data-page="reports">
+<div class="app"><nav class="side"></nav>
+<main class="main">
+  <div class="top">
+    <div><h1>Reports</h1><p class="sub" style="margin-top:8px">How Class 6B is doing, and what to practise next.</p></div>
+    <div class="acts"><span class="chip ink" style="padding:9px 16px">Class 6B</span><span class="chip" style="padding:9px 16px">Last 30 days</span><button class="btn" data-i="down"> Export CSV</button></div>
+  </div>
+  <section class="grid g4" style="margin-bottom:20px">
+    <div class="card stat"><div class="lbl">Grammar accuracy</div><div class="big num">78%</div><span class="chip mint">Up 6 points</span></div>
+    <div class="card stat"><div class="lbl">Speaking per student</div><div class="big num">4.2 min</div><span class="chip">Each class</span></div>
+    <div class="card stat"><div class="lbl">Lessons finished</div><div class="big num">31</div><span class="chip">Across 9 classes</span></div>
+    <div class="card stat"><div class="lbl">Students needing help</div><div class="big num">3</div><span class="chip coral">Below 50%</span></div>
+  </section>
+  <section class="grid g2" style="margin-bottom:20px">
+    <div class="card">
+      <h2>Accuracy over the month</h2>
+      <svg viewBox="0 0 520 220" width="100%" style="margin-top:14px">
+        <g stroke="#DDE3EF" stroke-width="1.5"><line x1="30" y1="20" x2="510" y2="20"/><line x1="30" y1="80" x2="510" y2="80"/><line x1="30" y1="140" x2="510" y2="140"/><line x1="30" y1="200" x2="510" y2="200"/></g>
+        <g fill="#5D6A8C" font-size="12" font-family="Figtree"><text x="0" y="24">100</text><text x="6" y="84">75</text><text x="6" y="144">50</text><text x="6" y="204">25</text></g>
+        <path d="M30,150 L110,132 L190,126 L270,104 L350,96 L430,70 L510,62 L510,200 L30,200 Z" fill="#FFEBD6"/>
+        <polyline points="30,150 110,132 190,126 270,104 350,96 430,70 510,62" fill="none" stroke="#FF8A1F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="510" cy="62" r="7" fill="#101B3A"/>
+        <g fill="#5D6A8C" font-size="12" font-family="Figtree"><text x="30" y="216">Week 1</text><text x="190" y="216">Week 2</text><text x="350" y="216">Week 3</text><text x="470" y="216">Week 4</text></g>
+      </svg>
+    </div>
+    <div class="card">
+      <h2>Mistakes that come up most</h2><p class="note" style="margin-top:6px">Share of all corrections this month.</p>
+      <div class="hb top"><span>Verb after he, she, it</span><div class="meter"><i style="--w:68%"></i></div><b>34%</b></div>
+      <div class="hb"><span>Past tense verbs</span><div class="meter"><i style="--w:44%"></i></div><b>22%</b></div>
+      <div class="hb"><span>is / are / was / were</span><div class="meter"><i style="--w:32%"></i></div><b>16%</b></div>
+      <div class="hb"><span>a / an / the</span><div class="meter"><i style="--w:22%"></i></div><b>11%</b></div>
+      <div class="hb"><span>Other</span><div class="meter"><i style="--w:34%"></i></div><b>17%</b></div>
+      <p class="note">Suggested next lesson: Present simple, with extra practice on verbs.</p>
+    </div>
+  </section>
+  <section class="card">
+    <h2 style="margin-bottom:10px">Students who need a nudge</h2>
+    <table class="tbl"><thead><tr><th>Student</th><th>Accuracy</th><th>Hardest topic</th><th>Spoke</th><th></th></tr></thead><tbody>
+      <tr><td><div class="who"><span class="av" data-n="Aarav"></span>Aarav</div></td><td><b>41%</b></td><td>Verb after he, she, it</td><td>2 min</td><td><button class="btn sm">Send practice</button></td></tr>
+      <tr><td><div class="who"><span class="av" data-n="Saanvi"></span>Saanvi</div></td><td><b>58%</b></td><td>Past tense verbs</td><td>5 min</td><td><button class="btn sm">Send practice</button></td></tr>
+      <tr><td><div class="who"><span class="av" data-n="Meera"></span>Meera</div></td><td><b>64%</b></td><td>is / are / was / were</td><td>6 min</td><td><button class="btn sm">Send practice</button></td></tr>
+    </tbody></table>
+  </section>
+</main></div>
+<script src="../assets/ui.js"></script></body></html>

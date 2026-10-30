@@ -16,7 +16,9 @@ const PROMPTS = {
 };
 const DEBUG = new URLSearchParams(location.search).has('debug'); // open the board with ?debug to see latency
 // The mic stops by itself once the student has spoken and then stayed quiet for SILENCE_MS.
-const VAD = { minLevel: 0.02, noiseFactor: 2.5, silenceMs: 900, giveUpMs: 8000, maxMs: 20000 };
+// earlyMs: after this much quiet, Whisper starts on what was said so far, while we keep waiting for silenceMs
+// to be sure the student is done. If they speak again that early result is thrown away, so nobody is cut off.
+const VAD = { minLevel: 0.02, noiseFactor: 2.5, earlyMs: 350, silenceMs: 900, giveUpMs: 8000, maxMs: 20000 };
 const PRACTICE = {
   id: 'practice', practice: true, title: 'Free practice',
   explain: 'Say or type any English sentence. The tutor corrects it and explains each mistake.',
@@ -32,7 +34,7 @@ const state = {
   data: null, lesson: null, step: -1, answered: true, voice: 'US female', sound: true,
   score: { right: 0, total: 0 }, lastSpoken: { text: '', brief: false }, timer: null, lessonToken: 0, stepToken: 0,
 };
-const rec = { recorder: null, stream: null, source: null, meter: 0, limit: 0, heard: false };
+const rec = { recorder: null, stream: null, source: null, meter: 0, limit: 0, heard: false, spec: null, wantSpec: false, speechEnd: 0 };
 // Speech arrives one sentence at a time; each is decoded on arrival and played in order through this chain.
 const player = { token: 0, chain: Promise.resolve(), source: null, controller: null };
 // Latency of one answer, measured from the moment the student finished (stopped talking, tapped or pressed Enter).
@@ -605,8 +607,19 @@ function startMeter(stream) {
       if (speaking) {
         rec.heard = true;
         quietSince = 0;
+        rec.speechEnd = 0;
+        rec.wantSpec = false;
+        if (rec.spec) { // they carried on talking: that early transcript is out of date
+          rec.spec.abort.abort();
+          rec.spec = null;
+        }
       } else if (rec.heard) {
         quietSince ||= now;
+        rec.speechEnd ||= quietSince;
+        if (now - quietSince > VAD.earlyMs && !rec.spec && !rec.wantSpec) {
+          rec.wantSpec = true;
+          rec.recorder.requestData(); // ondataavailable then starts Whisper on everything recorded so far
+        }
         if (now - quietSince > VAD.silenceMs) return stopRecording(); // finished speaking
       } else if (now - began > VAD.giveUpMs) {
         return stopRecording(); // nobody said anything
@@ -643,9 +656,19 @@ async function toggleMic() {
   const type = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4'].find((t) => MediaRecorder.isTypeSupported(t));
   const recorder = new MediaRecorder(rec.stream, type ? { mimeType: type } : undefined);
   const chunks = [];
-  recorder.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+  rec.spec = null;
+  rec.wantSpec = false;
+  rec.speechEnd = 0;
+  recorder.ondataavailable = (e) => {
+    if (e.data.size) chunks.push(e.data);
+    if (rec.wantSpec && recorder.state === 'recording') {
+      rec.wantSpec = false;
+      rec.spec = requestText(new Blob(chunks.slice(), { type: recorder.mimeType }));
+    }
+  };
   recorder.onstop = () => {
     startTiming(true);
+    if (rec.speechEnd) timing.start = rec.speechEnd; // count from when they actually stopped talking
     clearTimeout(rec.limit);
     stopMeter();
     rec.stream.getTracks().forEach((t) => t.stop());
@@ -669,15 +692,26 @@ async function toggleMic() {
   rec.limit = setTimeout(stopRecording, VAD.maxMs);
 }
 
+function requestText(blob) {
+  const abort = new AbortController();
+  const promise = (async () => {
+    const res = await fetch('/api/transcribe', { method: 'POST', headers: { 'Content-Type': blob.type || 'audio/webm' }, body: blob, signal: abort.signal });
+    if (!res.ok) throw await errorFrom(res);
+    return (await res.json()).text;
+  })();
+  promise.catch(() => {}); // a cancelled early attempt is expected; real callers still see the error
+  return { promise, abort };
+}
+
 async function transcribe(blob) {
   ui.mic.dataset.state = 'working';
   ui.mic.setAttribute('aria-label', 'Answer with the microphone');
   setTeacher('thinking');
   setPrompt('Writing down what you said…');
+  const request = rec.spec || requestText(blob); // the early one is already running if they paused long enough
+  rec.spec = null;
   try {
-    const res = await fetch('/api/transcribe', { method: 'POST', headers: { 'Content-Type': blob.type || 'audio/webm' }, body: blob });
-    if (!res.ok) throw await errorFrom(res);
-    const { text } = await res.json();
+    const text = await request.promise;
     markTiming('stt');
     setTeacher('idle');
     if (text) answer({ said: text });

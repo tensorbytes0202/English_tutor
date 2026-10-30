@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Students</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css"></head>
+<body><div class="app"><nav class="side" id="side"></nav><main class="main" id="main"></main></div>
+<script type="module">
+import { accuracy, api, avatar, el, form, gradeLabel, icon, shell, shortDate, toast } from './admin.js';
+
+const main = shell('users');
+const classes = await api('/classes');
+const params = new URLSearchParams(location.search);
+let classId = Number(params.get('class')) || classes[0]?.id;
+
+if (!classes.length) {
+  main.append(el('div', { class: 'top' }, el('h1', {}, 'Students')),
+    el('p', { class: 'empty card' }, 'Add a class first, then add its students. ', el('a', { href: 'index.html' }, 'Go to Classes')));
+} else {
+  const picker = el('select', { 'aria-label': 'Class', class: 'btn', onchange() { classId = Number(picker.value); history.replaceState(null, '', `?class=${classId}`); load(); } },
+    classes.map((c) => el('option', { value: c.id, selected: c.id === classId }, c.name)));
+  const title = el('h1', {});
+  const subtitle = el('p', { class: 'sub' });
+  const table = el('section', { class: 'card' });
+  main.append(el('div', { class: 'top' }, el('div', {}, title, subtitle), picker),
+    el('div', { class: 'split' }, table, el('section', { class: 'card' }, el('h2', {}, 'Add a student'),
+      form([
+        { name: 'first_name', label: 'First name', required: true, maxlength: 40 },
+        { name: 'last_name', label: 'Last name', maxlength: 40 },
+        { name: 'roll_no', label: 'Roll number', maxlength: 12 },
+      ], 'Add student', async (values) => {
+        await api(`/classes/${classId}/students`, { method: 'POST', body: values });
+        toast(`Added ${values.first_name}`);
+        await load();
+      }))));
+
+  async function load() {
+    const { class: cls, students } = await api(`/classes/${classId}/students`);
+    title.textContent = cls.name;
+    subtitle.textContent = `${gradeLabel(cls.grade)}${cls.teacher ? ` · ${cls.teacher}` : ''} · ${students.length} students`;
+    table.replaceChildren(students.length ? el('table', { class: 'tbl' },
+      el('thead', {}, el('tr', {}, ['Roll', 'Student', 'Accuracy this week', 'Last assessment', ''].map((h) => el('th', {}, h)))),
+      el('tbody', {}, students.map((s) => el('tr', {},
+        el('td', {}, s.roll_no || '–'),
+        el('td', {}, el('a', { class: 'who', href: `student.html?id=${s.id}` }, avatar(s.first_name), `${s.first_name} ${s.last_name}`.trim())),
+        el('td', {}, accuracy(s.week_accuracy)),
+        el('td', {}, s.last_taken ? shortDate(s.last_taken) : '–'),
+        el('td', {}, el('button', { class: 'btn icon sm', title: 'Remove student', 'aria-label': `Remove ${s.first_name}`,
+          async onclick() {
+            if (!confirm(`Remove ${s.first_name} and all their results?`)) return;
+            await api(`/students/${s.id}`, { method: 'DELETE' });
+            toast(`Removed ${s.first_name}`);
+            load();
+          } }, icon('trash'))))))) : el('p', { class: 'empty' }, 'No students in this class yet. Add the first one on the right.'));
+  }
+  load();
+}
+</script></body></html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Classroom: lesson complete</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/cr.css"></head><body>
+<script src="../assets/cr.js"></script>
+<script>
+CR.mount({
+  title: 'Present simple: he, she, it', step: { n: 6, total: 5, label: 'Lesson complete' },
+  teacher: { state: 'speaking', say: 'Brilliant work, Class 8! You got 4 out of 5 right.' },
+  rail: { now: { name: 'Ms. Asha', role: 'teacher', state: 'Well done!', tone: 'chalk' }, here: 18 },
+  dock: { icon: 'star', status: 'Lesson finished. Great speaking today!', wave: 'big', next: 'Another lesson' },
+  board: `<span class="eyebrow mint">${ic('check', 22)}Lesson complete</span>
+    <h1>Brilliant work, Class 8!</h1>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center">
+      <div class="ring" style="--s:230px;--col:var(--mint);--p:80"><b style="font-size:72px">4/5</b></div>
+      <div style="display:grid;gap:12px"><div style="display:flex;gap:8px;color:#F0B400">${ic('star', 62)}${ic('star', 62)}${ic('star', 62)}${ic('star', 62)}<span style="color:#C9D1EA">${ic('star', 62)}</span></div>
+        <p class="lead" style="font-size:25px">The class got <b>78%</b> of its spoken sentences right.</p></div></div>
+    <div class="push" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="block"><span class="label">Words to remember</span><div style="display:flex;gap:10px;flex-wrap:wrap"><span class="fx" style="font:700 30px var(--display)">goes</span><span class="fx" style="font:700 30px var(--display)">plays</span><span class="fx" style="font:700 30px var(--display)">watches</span></div></div>
+      <div class="block"><span class="label">Best streak</span><div class="who" style="display:flex;align-items:center;gap:12px;color:var(--ink);font:700 30px var(--display)">${av('Diya', 52)}Diya <span style="font:400 21px var(--text);color:var(--soft)">4 right in a row</span></div></div></div>`,
+});
+</script></body></html>

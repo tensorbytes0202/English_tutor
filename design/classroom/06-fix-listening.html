@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Classroom: student speaking</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/cr.css"></head><body>
+<script src="../assets/cr.js"></script>
+<script>
+CR.mount({
+  title: 'Present simple: he, she, it', step: { n: 2, total: 5 },
+  teacher: { state: 'idle', say: "Your turn, Kabir. Say the sentence correctly." },
+  rail: { timer: { p: 78, text: '0:18' }, now: { name: 'Kabir', state: 'Listening', tone: 'sky' }, queue: ['Meera', 'Rohan'], score: [1, 1], here: 18 },
+  dock: { icon: 'mic', status: 'Listening to Kabir…', wave: 'big', mic: 'live' },
+  board: `<span class="eyebrow">${ic('mic', 22)}Say it correctly</span>
+    <h1>Fix this sentence</h1>
+    <div class="block coral"><span class="label">Not quite right</span><div class="sent">He <span class="hl">play</span> cricket on Sunday.</div></div>
+    <div class="block push" style="padding:22px 28px"><span class="label">What I hear</span>
+      <div class="live-line">He plays cricket <span class="pend">on</span><span class="caret"></span></div>
+      <div style="margin-top:10px">${ribbon(46, 5, 'big')}</div></div>`,
+});
+</script></body></html>

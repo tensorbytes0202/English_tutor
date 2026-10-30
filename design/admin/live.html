@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Live class</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ds.css">
+<style>
+  .seg { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--bg); gap: 2px; }
+  .seg span { padding: 7px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; color: var(--muted); }
+  .seg span.on { background: var(--ink); color: #fff; }
+  .tiles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px 12px; margin-top: 22px; }
+  .line { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; padding: 12px 0; border-top: 1.5px solid var(--bg); align-items: start; }
+  .line:first-of-type { border-top: 0; } .line b { font-size: 14px; }
+  .q { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-weight: 600; }
+  .q .n { width: 30px; height: 30px; border-radius: 10px; background: var(--sky-soft); color: var(--sky-ink); display: grid; place-items: center; font: 700 15px var(--display); }
+  .big-btn { padding: 14px 24px; font-size: 16px; }
+</style></head>
+<body data-page="live">
+<div class="app"><nav class="side"></nav>
+<main class="main">
+  <div class="top">
+    <div>
+      <div style="display:flex;gap:10px;margin-bottom:12px"><span class="chip mint"><span class="dot"></span>Live</span><span class="chip">Ms. Asha is teaching</span><span class="chip"><span data-i="clock"></span>23:41 of 45:00</span></div>
+      <h1>Class 6B: Present simple</h1>
+    </div>
+    <div class="acts"><button class="btn sun big-btn" data-i="mute"> Mute AI</button><button class="btn danger big-btn" data-i="hand"> Override session</button><button class="btn big-btn">End class</button></div>
+  </div>
+
+  <div class="grid" style="grid-template-columns:1fr 360px;align-items:start">
+    <div class="grid">
+      <section class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Students <span class="note" style="font-weight:500">18 of 20 here</span></h2>
+          <div class="seg"><span>One student</span><span class="on">Raised hands</span><span>Take turns</span></div>
+        </div>
+        <div class="tiles">
+          <div class="tile speak"><span class="av" data-n="Diya" style="--s:52px"></span>Diya<div class="ribbon live" data-n="9" data-seed="2"></div></div>
+          <div class="tile hand"><span class="badge">1</span><span class="av" data-n="Kabir" style="--s:52px"></span>Kabir<div class="ribbon calm" data-n="9" data-seed="3"></div></div>
+          <div class="tile hand"><span class="badge">2</span><span class="av" data-n="Meera" style="--s:52px"></span>Meera<div class="ribbon calm" data-n="9" data-seed="4"></div></div>
+          <div class="tile hand"><span class="badge">3</span><span class="av" data-n="Rohan" style="--s:52px"></span>Rohan<div class="ribbon calm" data-n="9" data-seed="5"></div></div>
+          <div class="tile mute"><span class="av" data-n="Aarav" style="--s:52px"></span>Aarav<span class="chip coral" style="padding:0 8px;font-size:12px">Mic off</span></div>
+          <div class="tile"><span class="av" data-n="Ishaan" style="--s:52px"></span>Ishaan<div class="ribbon calm" data-n="9" data-seed="6"></div></div>
+          <div class="tile"><span class="av" data-n="Anaya" style="--s:52px"></span>Anaya<div class="ribbon calm" data-n="9" data-seed="7"></div></div>
+          <div class="tile"><span class="av" data-n="Vivaan" style="--s:52px"></span>Vivaan<div class="ribbon calm" data-n="9" data-seed="8"></div></div>
+          <div class="tile"><span class="av" data-n="Saanvi" style="--s:52px"></span>Saanvi<div class="ribbon calm" data-n="9" data-seed="9"></div></div>
+          <div class="tile"><span class="av" data-n="Reyansh" style="--s:52px"></span>Reyansh<div class="ribbon calm" data-n="9" data-seed="10"></div></div>
+          <div class="tile"><span class="av" data-n="Myra" style="--s:52px"></span>Myra<div class="ribbon calm" data-n="9" data-seed="11"></div></div>
+          <div class="tile"><span class="av" data-n="Arjun" style="--s:52px"></span>Arjun<div class="ribbon calm" data-n="9" data-seed="12"></div></div>
+          <div class="tile"><span class="av" data-n="Kiara" style="--s:52px"></span>Kiara<div class="ribbon calm" data-n="9" data-seed="13"></div></div>
+          <div class="tile"><span class="av" data-n="Dev" style="--s:52px"></span>Dev<div class="ribbon calm" data-n="9" data-seed="14"></div></div>
+          <div class="tile"><span class="av" data-n="Tara" style="--s:52px"></span>Tara<div class="ribbon calm" data-n="9" data-seed="15"></div></div>
+        </div>
+      </section>
+      <section class="card">
+        <h2 style="margin-bottom:8px">What's being said</h2>
+        <div class="line"><b>Diya</b><span>She <span class="hl">go</span> to school every day.</span><span class="chip coral">1 fix</span></div>
+        <div class="line"><b>Tutor</b><span>Good try! Say it like this: She <span class="fix">goes</span> to school every day.</span><span class="chip sky">Spoken</span></div>
+        <div class="line"><b>Kabir</b><span>My brother plays cricket on Sunday.</span><span class="chip mint">No mistakes</span></div>
+      </section>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Speaking order</h2><p class="note" style="margin:4px 0 8px">The AI listens to one student at a time.</p>
+        <div class="q"><span class="n" style="background:var(--sun-soft);color:var(--sun-ink)">▶</span><span class="av" data-n="Diya" style="--s:34px"></span>Diya<span class="chip sun" style="margin-left:auto">Speaking</span></div>
+        <div class="q"><span class="n">1</span><span class="av" data-n="Kabir" style="--s:34px"></span>Kabir<button class="btn sm" style="margin-left:auto">Next</button></div>
+        <div class="q"><span class="n">2</span><span class="av" data-n="Meera" style="--s:34px"></span>Meera</div>
+        <div class="q"><span class="n">3</span><span class="av" data-n="Rohan" style="--s:34px"></span>Rohan</div>
+      </section>
+      <section class="card">
+        <h2>This class so far</h2>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin:14px 0 8px"><span class="num" style="font-size:36px;font-weight:700">$1.42</span><span class="note">cap $3.00</span></div>
+        <div class="meter"><i style="--w:47%"></i></div>
+        <p class="note" style="margin-top:10px">Voice time 14.2 min. Replies written 212. The tutor pauses at $3.00.</p>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin:20px 0 6px"><span class="note" style="font-weight:600">Reply time now</span><b class="num" style="font-size:22px">0.58 s</b></div>
+        <svg viewBox="0 0 300 60" width="100%" height="60"><polyline fill="none" stroke="#FF8A1F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="0,34 25,30 50,36 75,26 100,32 125,22 150,30 175,24 200,34 225,28 250,20 275,26 300,22"/><line x1="0" y1="14" x2="300" y2="14" stroke="#DDE3EF" stroke-dasharray="4 5"/></svg>
+      </section>
+      <section class="card">
+        <h2 style="margin-bottom:14px">Tutor settings for this class</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0"><span>Tutor speaks replies</span><span class="toggle"></span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0"><span>Review replies before they play</span><span class="toggle off"></span></div>
+      </section>
+    </div>
+  </div>
+</main></div>
+<script src="../assets/ui.js"></script></body></html>

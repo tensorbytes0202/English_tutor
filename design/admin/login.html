@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin sign in</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ds.css">
+<style>
+  body { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 100vh; }
+  .left { background: var(--ink); color: #fff; padding: 48px 64px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+  .left h1 { font-size: 64px; max-width: 520px; font-weight: 800; }
+  .left p { color: #AEB9DC; max-width: 420px; margin-top: 18px; font-size: 18px; }
+  .left .ribbon { height: 150px; gap: 7px; opacity: .95; } .left .ribbon span { width: 9px; }
+  .right { display: grid; place-items: center; padding: 48px; }
+  form { width: 400px; display: grid; gap: 18px; }
+  form h2 { font-size: 30px; }
+</style></head>
+<body>
+  <section class="left">
+    <div class="brand"><span class="mark"><span class="ribbon" data-n="5" data-seed="2"></span></span><span>Open Minds Tutor<small style="color:#8E9BC4">Birla Open Minds International School</small></span></div>
+    <div>
+      <div class="ribbon live" data-n="34" data-seed="4"></div>
+      <h1 style="margin-top:36px">Every student gets a turn to speak.</h1>
+      <p>Run live English classes, step in when you need to, and see how each student is doing.</p>
+    </div>
+    <span class="note" style="color:#8E9BC4">Student voices are never stored or used to train models.</span>
+  </section>
+  <section class="right">
+    <form>
+      <div><h2>Sign in</h2><p class="sub" style="margin-top:6px">Use your school account.</p></div>
+      <label class="field">School email<input value="kapoor@birlaopenminds.edu" /></label>
+      <label class="field">Password<input type="password" value="••••••••••" /></label>
+      <button type="button" class="btn primary lg">Sign in</button>
+      <button type="button" class="btn lg">Continue with school single sign-on</button>
+      <span class="note">Forgot your password? Ask the school IT desk to reset it.</span>
+    </form>
+  </section>
+<script src="../assets/ui.js"></script></body></html>

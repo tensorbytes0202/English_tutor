@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Classroom: wrong answer</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/cr.css"></head><body>
+<script src="../assets/cr.js"></script>
+<script>
+CR.mount({
+  title: 'Present simple: he, she, it', step: { n: 4, total: 5 },
+  teacher: { state: 'speaking', say: "Good try! With 'he' we say 'goes', not 'go'. Say it with me: He goes home." },
+  rail: { now: { name: 'Kabir', state: 'Not yet', tone: 'coral' }, queue: ['Meera', 'Rohan'], score: [3, 4], here: 18 },
+  dock: { icon: 'bulb', status: "Let's look at the answer together", wave: 'big', next: 'Next question' },
+  board: `<span class="eyebrow coral">${ic('bulb', 22)}Let's fix it</span>
+    <h1>Which sentence is correct?</h1>
+    <div class="banner coral">${ic('bulb', 34)}<div>Good try, Kabir. The answer is B.<small>Look at the green card.</small></div></div>
+    <div class="opts mid sm">
+      <div class="opt wrong"><span class="k">A</span>He go home.<span class="st">${ic('x', 24)}</span></div><div class="opt right"><span class="k">B</span>He goes home.<span class="st">${ic('check', 24)}</span></div>
+      <div class="opt dim"><span class="k">C</span>He going home.</div><div class="opt dim"><span class="k">D</span>He gose home.</div></div>
+    <div class="block"><span class="label">Why</span><span style="font-size:25px">With he, she and it, the verb takes <b>-s</b> or <b>-es</b>.</span></div>`,
+});
+</script></body></html>
